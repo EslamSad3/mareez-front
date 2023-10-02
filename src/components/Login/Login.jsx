@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from './Login.module.css'
+import styles from './Login.module.css';
+import { Container } from 'react-bootstrap';
 function Login() {
-  return <>
-      <h2>Login</h2>
-    </>
-  
+  return (
+    <Container >
+      <h1>ddd</h1>
+    </Container>
+  );
 }
 
 export default Login;

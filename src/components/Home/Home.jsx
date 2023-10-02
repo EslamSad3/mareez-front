@@ -22,7 +22,6 @@ function Home() {
         <Offers/>
         <Offers/>
         <FootHero/>
-
       </Container>
     </>
   );

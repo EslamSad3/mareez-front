@@ -46,7 +46,7 @@ function FootHero() {
               <img
                 src={item}
                 style={{ width: '90%', borderRadius: '12px', margin: '10px' }}
-              />
+              alt=""/>
             </Col>
           );
         })}
