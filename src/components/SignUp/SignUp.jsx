@@ -1,10 +1,13 @@
 import React from 'react';
-import styles from './SignUp.module.css'
+import styles from './SignUp.module.css';
+import { useSelector } from 'react-redux';
 function SignUp() {
-  return <>
-      <h2>SignUp</h2>
+ let counter =  useSelector((state) => state.counter);
+  return (
+    <>
+      <h2>{counter}</h2>
     </>
-  
+  );
 }
 
 export default SignUp;
