@@ -9,13 +9,12 @@ import MyAccount from './components/MyAccount/MyAccount';
 import UserOrders from './components/UserOrders/UserOrders';
 import UserFavlist from './components/UserFavlist/UserFavlist';
 import SignOut from './components/SignOut/SignOut';
-import { Provider } from 'react-redux';
-import { store } from './redux/Store';
 import Products from './components/Products/Products';
-
+import { ContextProvider } from './context/ContextAPI';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
-    <Provider store={store}>
+    <ContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="" element={<LayOut />}>
@@ -28,10 +27,11 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
+        <ToastContainer/>
       </BrowserRouter>
-    </Provider>
+    </ContextProvider>
   );
 }
 
