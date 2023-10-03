@@ -4,11 +4,9 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Context } from '../../context/ContextAPI';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 function SignUp() {
   const { handleSigningUp } = useContext(Context);
-  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -35,12 +33,9 @@ function SignUp() {
       .oneOf([Yup.ref('password')], 'كلمة المرور غير متطابقه'),
   });
 
-  const handleSignUp = async (values) => {
-    let res = await handleSigningUp(values);
-    if (res.status === 201) {
-      toast.success('تم التسجيل بنجاح');
-      navigate('/login');
-    }
+  const handleSignUp =  (values) => {
+    handleSigningUp(values);
+    
   };
   const formik = useFormik({
     initialValues: {

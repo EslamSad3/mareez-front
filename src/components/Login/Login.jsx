@@ -1,32 +1,21 @@
 import React, { useContext } from 'react';
-import styles from './Login.module.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Context } from '../../context/ContextAPI';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 
 function Login() {
-  const navigate = useNavigate();
-  const { handleLogingIn, loginErr } = useContext(Context);
+
+  const { handleLogingIn,saveUserData } = useContext(Context);
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('البريد غير صحيح').required('البريد مطلوب'),
     password: Yup.string().required('كلمة المرور مطلوبه'),
   });
 
-  const handleLogin = async (values) => {
-    let res = await handleLogingIn(values);
-    if (res) {
-      console.log(res);
-      if (res.status === 200) {
-        toast.success('تم التسجيل بنجاح');
-        navigate('/');
-      }
-    }
-    if (loginErr.response.status !== 200) {
-      toast.error(' خطأ في البيانات ');
-    }
+  const handleLogin =  (values) => {
+     handleLogingIn(values);
+     saveUserData()
   };
   const formik = useFormik({
     initialValues: {

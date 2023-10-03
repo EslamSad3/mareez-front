@@ -14,8 +14,8 @@ import { ContextProvider } from './context/ContextAPI';
 import { ToastContainer } from 'react-toastify';
 function App() {
   return (
-    <ContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ContextProvider>
         <Routes>
           <Route path="" element={<LayOut />}>
             <Route path="/" element={<Home />} />
@@ -29,9 +29,9 @@ function App() {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
-        <ToastContainer/>
-      </BrowserRouter>
-    </ContextProvider>
+        <ToastContainer />
+      </ContextProvider>
+    </BrowserRouter>
   );
 }
 
