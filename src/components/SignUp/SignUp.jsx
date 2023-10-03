@@ -7,7 +7,7 @@ import { Context } from '../../context/ContextAPI';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function SignUp() {
-  const { signUp } = useContext(Context);
+  const { handleSigningUp } = useContext(Context);
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -36,7 +36,7 @@ function SignUp() {
   });
 
   const handleSignUp = async (values) => {
-    let res = await signUp(values);
+    let res = await handleSigningUp(values);
     if (res.status === 201) {
       toast.success('تم التسجيل بنجاح');
       navigate('/login');

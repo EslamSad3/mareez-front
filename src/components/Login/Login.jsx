@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './Login.module.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Context } from '../../context/ContextAPI';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Login() {
+  const navigate = useNavigate();
+  const { handleLogingIn, loginErr } = useContext(Context);
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('البريد غير صحيح').required('البريد مطلوب'),
-    password: Yup.string()
-      .required('كلمة المرور مطلوبه')
-      .min(6, 'كلمة المرور  قصيره')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-        'كلمة المرور غير صالحه'
-      ),
+    password: Yup.string().required('كلمة المرور مطلوبه'),
   });
 
-  const handleSignUp = (values) => {
-    console.log('logged ..');
-    console.log(values);
+  const handleLogin = async (values) => {
+    let res = await handleLogingIn(values);
+    if (res) {
+      console.log(res);
+      if (res.status === 200) {
+        toast.success('تم التسجيل بنجاح');
+        navigate('/');
+      }
+    }
+    if (loginErr.response.status !== 200) {
+      toast.error(' خطأ في البيانات ');
+    }
   };
   const formik = useFormik({
     initialValues: {
@@ -26,7 +34,7 @@ function Login() {
       password: '',
     },
     validationSchema,
-    onSubmit: handleSignUp,
+    onSubmit: handleLogin,
   });
   return (
     <>
@@ -64,7 +72,6 @@ function Login() {
                 </div>
               ) : null}
 
-
               <label htmlFor="password">كلمة المرور</label>
               <input
                 onBlur={formik.handleBlur}
@@ -85,13 +92,12 @@ function Login() {
                 </div>
               ) : null}
 
-      
               <Row className="mx-2 my-3">
                 <Button
                   disabled={!(formik.isValid && formik.dirty)}
                   type="submit"
                 >
-                   تسجيل الدخول
+                  تسجيل الدخول
                 </Button>
               </Row>
             </form>
