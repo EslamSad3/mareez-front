@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './NavBar.module.css';
 import { Container, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Context } from '../../../context/ContextAPI';
+
 function NavBar() {
+  const { userData } = useContext(Context);
+
+  function signOut() {
+    localStorage.clear()
+  }
+
   return (
     <Navbar expand="lg" className={styles.nav_bg_color}>
       <Container className="text-white m-0 ">
@@ -34,9 +42,9 @@ function NavBar() {
                 to="/cart"
                 className="text-white cart position-relative d-flex ustify-content-center align-items-center"
               >
-                <i class="fa-solid fa-cart-shopping fs-3"></i>
+                <i className="fa-solid fa-cart-shopping fs-3"></i>
                 <h6 className="mx-2 fs-6 fw-normal">العربه</h6>
-                <span class="position-absolute top-1 start-100 translate-middle badge  rounded-circle bg-danger">
+                <span className="position-absolute top-1 start-100 translate-middle badge  rounded-circle bg-danger">
                   4
                 </span>
               </Link>
@@ -44,7 +52,7 @@ function NavBar() {
             <Nav.Link className="text-white d-flex ustify-content-center align-items-center">
               <Link to="/login">
                 {' '}
-                <i class="fa-solid fa-user fs-3"></i>
+                <i className="fa-solid fa-user fs-3"></i>
               </Link>
               <Dropdown>
                 <Dropdown.Toggle
@@ -52,7 +60,10 @@ function NavBar() {
                   className="text-white border-0 d-flex justify-content-center align-items-center"
                   id="dropdown-basic"
                 >
-                  <h6 className="mx-2"> مرحبا : احمد</h6>
+                  <h6 className="mx-2">
+                    {' '}
+                    مرحبا : {userData !== null ? userData.payload.name : 'Guest'}
+                  </h6>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
@@ -72,7 +83,11 @@ function NavBar() {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link className="text-dark" to="/signout">
+                    <Link
+                      onClick={() => signOut()}
+                      className="text-dark"
+                      to="/login"
+                    >
                       تسجبل الخروج
                     </Link>
                   </Dropdown.Item>

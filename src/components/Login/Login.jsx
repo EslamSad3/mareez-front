@@ -1,21 +1,23 @@
 import React, { useContext } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Context } from '../../context/ContextAPI';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate()
 
-  const { handleLogingIn,saveUserData } = useContext(Context);
+  const { handleLogingIn, isLoading } = useContext(Context);
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('البريد غير صحيح').required('البريد مطلوب'),
     password: Yup.string().required('كلمة المرور مطلوبه'),
   });
 
-  const handleLogin =  (values) => {
-     handleLogingIn(values);
-     saveUserData()
+  const handleLogin = async (values) => {
+    await handleLogingIn(values);
+    navigate('/')
   };
   const formik = useFormik({
     initialValues: {
@@ -25,6 +27,7 @@ function Login() {
     validationSchema,
     onSubmit: handleLogin,
   });
+
   return (
     <>
       <Container className="my-5">
@@ -72,7 +75,11 @@ function Login() {
                 id="password"
                 placeholder="كلمة المرور"
               />
-
+              <div className=" mt-1">
+                <Link to="/forgotpassword">
+                  <small className="text-danger"> نسيت كلمة المرور ؟</small>
+                </Link>
+              </div>
               {formik.errors.password && formik.touched.password ? (
                 <div>
                   <small className="text-danger">
@@ -81,13 +88,27 @@ function Login() {
                 </div>
               ) : null}
 
-              <Row className="mx-2 my-3">
-                <Button
-                  disabled={!(formik.isValid && formik.dirty)}
-                  type="submit"
-                >
-                  تسجيل الدخول
-                </Button>
+              <Row className="mx-2 my-3 d-flex">
+                {isLoading ? (
+                  <Button type="button" variant="success">
+                    <Spinner animation="border" variant="white" />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="success"
+                    disabled={!(formik.isValid && formik.dirty)}
+                    type="submit"
+                  >
+                    تسجيل الدخول
+                  </Button>
+                )}
+
+                <div className="d-flex mt-3">
+                  <p className='mx-2'> ليس لديك حساب ؟</p>
+                  <Link to="/signup">
+                    <span className="text-success ">اشترك الان</span>
+                  </Link>
+                </div>
               </Row>
             </form>
           </Row>

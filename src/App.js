@@ -10,12 +10,16 @@ import UserOrders from './components/UserOrders/UserOrders';
 import UserFavlist from './components/UserFavlist/UserFavlist';
 import SignOut from './components/SignOut/SignOut';
 import Products from './components/Products/Products';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+
 import { ContextProvider } from './context/ContextAPI';
 import { ToastContainer } from 'react-toastify';
+import { useState } from 'react';
+import jwtDecode from 'jwt-decode';
+
 function App() {
   return (
     <BrowserRouter>
-      <ContextProvider>
         <Routes>
           <Route path="" element={<LayOut />}>
             <Route path="/" element={<Home />} />
@@ -28,9 +32,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
         <ToastContainer />
-      </ContextProvider>
     </BrowserRouter>
   );
 }

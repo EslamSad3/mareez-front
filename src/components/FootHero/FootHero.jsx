@@ -40,9 +40,9 @@ function FootHero() {
         </Col>
       </Row>
       <Row className="my-5">
-        {cat.map((item) => {
+        {cat.map((item,index) => {
           return (
-            <Col md={3} sm={6}>
+            <Col md={3} sm={6} key={index}>
               <img
                 src={item}
                 style={{ width: '90%', borderRadius: '12px', margin: '10px' }}

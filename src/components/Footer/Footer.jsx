@@ -14,7 +14,6 @@ function Footer() {
           </div>
         </Col>
         <Col>
-          {' '}
           <h6>روابط مهمه</h6>
           <div className="d-flex flex-column">
             <a href="#">سياسات الاسترجاع</a>
@@ -29,7 +28,7 @@ function Footer() {
         <Col>
           <h6>الموقع </h6>
           <p>
-            <i class="fa-solid fa-location-dot"></i>
+            <i className="fa-solid fa-location-dot"></i>
           </p>
         </Col>
       </Row>

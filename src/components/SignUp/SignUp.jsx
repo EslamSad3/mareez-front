@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 // import styles from './SignUp.module.css';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Context } from '../../context/ContextAPI';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
-  const { handleSigningUp } = useContext(Context);
+  const navigate = useNavigate()
+
+  const { handleSigningUp, isLoading } = useContext(Context);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -33,9 +36,9 @@ function SignUp() {
       .oneOf([Yup.ref('password')], 'كلمة المرور غير متطابقه'),
   });
 
-  const handleSignUp =  (values) => {
-    handleSigningUp(values);
-    
+  const handleSignUp = async (values) => {
+    await handleSigningUp(values);
+    navigate('/login')
   };
   const formik = useFormik({
     initialValues: {
@@ -174,12 +177,25 @@ function SignUp() {
               ) : null}
 
               <Row className="mx-2 my-3">
-                <Button
-                  disabled={!(formik.isValid && formik.dirty)}
-                  type="submit"
-                >
-                  اشترك الان
-                </Button>
+                {isLoading ? (
+                  <Button type="button" variant="success">
+                    <Spinner animation="border" variant="white" />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="success"
+                    disabled={!(formik.isValid && formik.dirty)}
+                    type="submit"
+                  >
+                    اشترك الان
+                  </Button>
+                )}
+                <div className="d-flex mt-3">
+                  <p className='mx-2'> لديك حساب ؟</p>
+                  <Link to="/login">
+                    <span className="text-success">سجل دخولك الان</span>
+                  </Link>
+                </div>
               </Row>
             </form>
           </Row>

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './MyAccount.module.css'
+import { Context } from '../../context/ContextAPI';
 function MyAccount() {
+  const {userData} = useContext(Context)
   return <>
-      <h2>MyAccount</h2>
+      <h2>{userData.name}</h2>
     </>
   
 }
