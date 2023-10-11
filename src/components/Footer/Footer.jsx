@@ -3,7 +3,7 @@ import styles from './Footer.module.css';
 import { Col, Row } from 'react-bootstrap';
 function Footer() {
   return (
-    <footer className="p-3">
+    <footer className="p-3 w-100">
       <Row className="m-0">
         <Col>
           <h6>الشركه</h6>

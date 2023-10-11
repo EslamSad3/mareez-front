@@ -7,10 +7,10 @@ function LayOut() {
   return (
     <>
       <Header />
-      <Container>
+      <Container >
         <Outlet>{Children}</Outlet>
       </Container>
-      <Footer />
+      <Footer/>
     </>
   );
 }

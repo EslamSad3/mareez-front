@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styles from './NavBar.module.css';
 import { Container, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../../context/ContextAPI';
 
 function NavBar() {
-  const { userData } = useContext(Context);
-
+  const { userData,setUserData,setAdminData} = useContext(Context);
+const navigate = useNavigate()
   function signOut() {
     localStorage.clear()
+    setUserData(null)
+    setAdminData(null)
+    navigate('/login')
   }
 
   return (
@@ -50,7 +53,7 @@ function NavBar() {
               </Link>
             </Nav.Link>
             <Nav.Link className="text-white d-flex ustify-content-center align-items-center">
-              <Link to="/login">
+              <Link to="/my-details">
                 {' '}
                 <i className="fa-solid fa-user fs-3"></i>
               </Link>

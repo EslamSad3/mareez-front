@@ -5,19 +5,23 @@ import { Col, Container, Row } from 'react-bootstrap';
 function Header() {
   return (
     <>
-      <NavBar />
-      <Container fluid className='shadow-sm p-2 fsize'>
-        <Row className='m-auto text-center'>
-          <Col className='cursor-pointer'>
+      <Container
+        fluid
+        className="shadow-sm m-0 p-0  w-100 position-sticky  top-0"
+        style={{ zIndex: '999' }}
+      >
+        <NavBar />
+        <Row className="m-auto text-center " style={{backgroundColor:'#eee'}}>
+          <Col className="cursor-pointer">
             <div>الأثاث</div>
           </Col>
-          <Col className='cursor-pointer'>
+          <Col className="cursor-pointer">
             <div>الأثاث</div>
           </Col>
-          <Col className='cursor-pointer'>
+          <Col className="cursor-pointer">
             <div>الأثاث</div>
           </Col>
-          <Col className='cursor-pointer'>
+          <Col className="cursor-pointer">
             <div>الأثاث</div>
           </Col>
         </Row>

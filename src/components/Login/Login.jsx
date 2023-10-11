@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -6,18 +6,14 @@ import { Context } from '../../context/ContextAPI';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
-  const navigate = useNavigate()
-
-  const { handleLogingIn, isLoading } = useContext(Context);
-
+  const navigate = useNavigate();
+  const { handleLogingIn, isLoading, userData ,adminData} = useContext(Context);
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('البريد غير صحيح').required('البريد مطلوب'),
     password: Yup.string().required('كلمة المرور مطلوبه'),
   });
-
   const handleLogin = async (values) => {
     await handleLogingIn(values);
-    navigate('/')
   };
   const formik = useFormik({
     initialValues: {
@@ -27,7 +23,14 @@ function Login() {
     validationSchema,
     onSubmit: handleLogin,
   });
-
+  useEffect(() => {
+    if (userData) {
+      navigate('/');
+    }
+    if (adminData) {
+      navigate('/admin');
+    }
+  }, [userData,adminData]);
   return (
     <>
       <Container className="my-5">
@@ -35,9 +38,11 @@ function Login() {
           <Row className="m-0 d-flex flex-column gap-2  text-center">
             <Col>
               <img
+              className='cursor-pointer'
                 src="logo.png"
                 alt="logo"
                 style={{ width: '50%', marginTop: '1rem' }}
+                onClick={() => navigate('/')}
               />
             </Col>
             <Col>
@@ -104,7 +109,7 @@ function Login() {
                 )}
 
                 <div className="d-flex mt-3">
-                  <p className='mx-2'> ليس لديك حساب ؟</p>
+                  <p className="mx-2"> ليس لديك حساب ؟</p>
                   <Link to="/signup">
                     <span className="text-success ">اشترك الان</span>
                   </Link>
