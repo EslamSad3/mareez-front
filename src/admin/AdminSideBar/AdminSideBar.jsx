@@ -5,23 +5,23 @@ function AdminSideBar() {
   return (
     <Container className='h-100'>
       <Link className="text-dark d-flex" to={'/admin/allProducts'}>
-        <h3>كل المنتجات</h3>
+        <p className='border-bottom w-100 '>كل المنتجات</p>
 
       </Link>
-      <Link className="text-dark" to={'/admin/categories'}>
-        <h3>كل التصنيفات</h3>
+      <Link className="text-dark border-bottom" to={'/admin/categories'}>
+        <p className='border-bottom w-100 '>كل التصنيفات</p>
       </Link>
       <Link className="text-dark" to={'/admin/subcategories'}>
-        <h3>كل التصنيفات الفرعيه</h3>
+        <p className='border-bottom w-100 '>كل التصنيفات الفرعيه</p>
       </Link>
       <Link className="text-dark" to={'/admin/brands'}>
-        <h3>كل الماركات</h3>
+        <p className='border-bottom w-100 '>كل الماركات</p>
       </Link>
       <Link className="text-dark" to={'/admin/users'}>
-        <h3>كل المستخدمين</h3>
+        <p className='border-bottom w-100 '>كل المستخدمين</p>
       </Link>
       <Link className="text-dark" to={'/admin/orders'}>
-        <h3>كل الطلبات</h3>
+        <p className='border-bottom w-100 '>كل الطلبات</p>
       </Link>
     </Container>
   );

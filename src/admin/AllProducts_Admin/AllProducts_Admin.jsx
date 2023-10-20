@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Context } from '../../context/ContextAPI';
 function AllProductsAdmin() {
   const { products } = useContext(Context);
-  console.log(products)
-  useEffect(()=>{},[products])
+  console.log(products);
+  useEffect(() => {}, [products]);
   return (
     <Container>
       <Link to={'/admin/allProducts/add'}>
@@ -14,22 +14,21 @@ function AllProductsAdmin() {
       <br />
       <h2>كل المنتجات</h2>
       <Row>
-        <Col sm="8" xs="9" md="9">
-        {products.map((item)=>{
-          return <Card key={item._id} >
-            <Card.Img variant="top" src={item.imageCover} />
-            <Card.Header>Header</Card.Header>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Subtitle>Card Subtitle</Card.Subtitle>
-              <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of
-                the card's content.
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          })}
-          </Col>
+        {products.map((item) => {
+          return (
+            <Col key={item._id} xs="9" sm="9" md="3">
+                <Link to={`/admin/allProducts/${item.slug}`}>
+                <Card>
+                  <Card.Img variant="top" src={item.imageCover} />
+                  <Card.Body>
+                    <Card.Title>{item.title}</Card.Title>
+                    <Card.Text>{item.description}</Card.Text>
+                  </Card.Body>
+                </Card>
+            </Link>
+              </Col>
+          );
+        })}
       </Row>
     </Container>
   );
