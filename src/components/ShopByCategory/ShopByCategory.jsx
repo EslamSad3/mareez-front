@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ShopByCategory.module.css';
+// import styles from './ShopByCategory.module.css';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
@@ -49,7 +49,7 @@ function ShopByCategory() {
             >
           {data.map((item) => {
             return (
-              <SwiperSlide className="swiper-slide">
+              <SwiperSlide className="swiper-slide ">
                 <img src={item} alt="" />
               </SwiperSlide>
             );
@@ -61,7 +61,7 @@ function ShopByCategory() {
       <Row className="text-center my-5 d-flex flex-wrap">
           {cat.map((item) => {
             return (
-        <Col xs={12} sm={6} md={3} lg={3}>
+        <Col xs={12} sm={6} md={3} lg={3} style={{marginTop:"20px"}}>
               <img
                 src={item}
                 alt=""

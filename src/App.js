@@ -22,7 +22,6 @@ import ProtectedRouteAdmin from './admin/ProtectedRoute_admin/ProtectedRoute_adm
 import HomeAdmin from './admin/Home_Admin/Home_Admin';
 import UsersAdmin from './admin/Users_Admin/Users_Admin';
 import AddProduct from './admin/Actions/AddProduct/AddProduct';
-import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
 
 function App() {
   return (
@@ -141,6 +140,14 @@ function App() {
             element={
               <ProtectedRouteAdmin>
                 <SubCategoriesAdmin />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="allBrands"
+            element={
+              <ProtectedRouteAdmin>
+                <AllBrandAdmin />
               </ProtectedRouteAdmin>
             }
           />
