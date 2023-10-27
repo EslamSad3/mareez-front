@@ -22,6 +22,8 @@ import ProtectedRouteAdmin from './admin/ProtectedRoute_admin/ProtectedRoute_adm
 import HomeAdmin from './admin/Home_Admin/Home_Admin';
 import UsersAdmin from './admin/Users_Admin/Users_Admin';
 import AddProduct from './admin/Actions/AddProduct/AddProduct';
+import AllBrandAdmin from './admin/Brands_Admin/All_Brand_Admin';
+import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
 
 function App() {
   return (
