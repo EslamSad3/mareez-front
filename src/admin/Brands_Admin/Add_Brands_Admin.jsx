@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
-import vatar from '../../Assets/avatar.png';
 import { Context } from '../../context/ContextAPI';
 import { useFormik } from 'formik';
 

@@ -25,6 +25,8 @@ import AddProduct from './admin/Actions/AddProduct/AddProduct';
 import AddBrandsAdmin from './admin/Brands_Admin/Add_Brands_Admin';
 import AllBrandAdmin from './admin/Brands_Admin/All_Brand_Admin';
 import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
+import AddCategoryAdmin from './admin/Categories_Admin/AddCategoryAdmin';
+import AddSubCategoryAddmin from './admin/SubCategories_Admin/AddSubCategoryAddmin';
 
 function App() {
   return (
@@ -119,6 +121,22 @@ function App() {
             element={
               <ProtectedRouteAdmin>
                 <AddBrandsAdmin />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="addcategory"
+            element={
+              <ProtectedRouteAdmin>
+                <AddCategoryAdmin />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="addsubcategory"
+            element={
+              <ProtectedRouteAdmin>
+                <AddSubCategoryAddmin />
               </ProtectedRouteAdmin>
             }
           />
