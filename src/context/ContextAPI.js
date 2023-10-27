@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export const Context = createContext();
 export function ContextProvider(props) {
@@ -19,7 +19,7 @@ export function ContextProvider(props) {
   const [loginRes, setloginRes] = useState(null);
   const [signUpRes, setSignUpRes] = useState(null);
   const [isLoading, setIsLsLoading] = useState(false);
-  const { id } = useParams();
+
 
   let adminHeaders = {
     Authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
@@ -114,11 +114,14 @@ export function ContextProvider(props) {
   // Get All Categories
   async function getAllCategories() {
     try {
+      setIsLsLoading(true);
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/categories`
       );
       setCategories(res.data.data);
+      setIsLsLoading(false);
     } catch (error) {
+      setIsLsLoading(false);
       console.log(error);
     }
   }
@@ -126,11 +129,14 @@ export function ContextProvider(props) {
   // Get All SubCategories
   async function getAllSubCategories() {
     try {
+      setIsLsLoading(true);
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/subcategories`
       );
       setSubCategories(res.data.data);
+      setIsLsLoading(false);
     } catch (error) {
+      setIsLsLoading(false);
       console.log(error);
     }
   }
@@ -138,9 +144,12 @@ export function ContextProvider(props) {
   // Get All Brands
   async function getAllBrands() {
     try {
+      setIsLsLoading(true);
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/brands`);
       setBrands(res.data.data);
+      setIsLsLoading(false);
     } catch (error) {
+      setIsLsLoading(false);
       console.log(error);
     }
   }
@@ -148,9 +157,12 @@ export function ContextProvider(props) {
   // Get All Product
   async function getAllProducts() {
     try {
+      setIsLsLoading(true);
       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/products`);
       setProducts(res.data.data);
+      setIsLsLoading(false);
     } catch (error) {
+      setIsLsLoading(false);
       console.log(error);
     }
   }
@@ -158,6 +170,7 @@ export function ContextProvider(props) {
   // Add product
   const addNewProduct = async (fd) => {
     try {
+      setIsLsLoading(true);
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/products`,
         fd,
@@ -165,23 +178,26 @@ export function ContextProvider(props) {
           headers: adminHeaders,
         }
       );
+      setIsLsLoading(false);
       if (response.status === 201) {
-        console.log(response);
-        <Navigate to={'/admin/allProducts'}/>
+        <Navigate to={'/admin/allProducts'} />;
         toast.success(`${response.data.data.title} added successfully`, {
           position: 'top-center',
           duration: 2000,
         });
       }
     } catch (error) {
-      console.log(error);
-      toast.error('2خطأ')
+      setIsLsLoading(false);
+      toast.error('2خطأ');
+    } finally {
+      setIsLsLoading(false);
     }
   };
 
   // update Product
 
-  const updateProduct = async (fd) => {
+  const updateProduct = async (fd,id) => {
+    setIsLsLoading(true);
     return await axios
       .patch(`${process.env.REACT_APP_BASE_URL}/products/${id}`, fd, {
         headers: adminHeaders,
@@ -189,13 +205,58 @@ export function ContextProvider(props) {
 
       .then((res) => {
         if (res.status === 200) {
+          setIsLsLoading(false);
+
           toast.success(`${res.data.data.title} Updated successfully`, {
             position: 'top-center',
             duration: 2000,
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsLsLoading(false);
+        console.log(err);
+      });
+  };
+
+  // update Product
+
+  const deleteProduct = async (id) => {
+    setIsLsLoading(true);
+    return await axios
+      .delete(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
+        headers: adminHeaders,
+      })
+
+      .then((res) => {
+        if (res.status === 204) {
+          setIsLsLoading(false);
+          toast.success(`Deleted successfully`, {
+            position: 'top-center',
+            duration: 1000,
+          });
+        }
+      })
+      .catch((err) => {
+        setIsLsLoading(false);
+        console.log(err);
+      });
+  };
+
+
+  const handleOnChange = async (event) => {
+    if (event.target.id === 'category') {
+      console.log('Form::onChange', event.target.value);
+
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/categories/${event.target.value}/subcategories`
+        );
+        setSubCategories(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -203,7 +264,7 @@ export function ContextProvider(props) {
     saveAdminData();
     getAllCategories();
     getAllBrands();
-    getAllProducts()
+    getAllProducts();
   }, []);
   return (
     <Context.Provider
@@ -215,6 +276,8 @@ export function ContextProvider(props) {
         addNewProduct,
         getAllCategories,
         updateProduct,
+        deleteProduct,
+        handleOnChange,
         userData,
         adminData,
         loginErr,
@@ -224,8 +287,9 @@ export function ContextProvider(props) {
         isLoading,
         products,
         categories,
+        subcategories,
         brands,
-        adminHeaders
+        adminHeaders,
       }}
     >
       {props.children}

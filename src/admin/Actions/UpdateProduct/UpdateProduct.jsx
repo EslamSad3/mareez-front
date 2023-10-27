@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Context } from '../../../context/ContextAPI';
 import axios from 'axios';
 
 function UpdateProduct() {
-  const navigate = useNavigate();
-  const { categories, brands, updateProduct,adminHeaders } = useContext(Context);
-  const [subCategories, setSubCategories] = useState([]);
+  const { categories, brands, updateProduct,adminHeaders ,handleOnChange,subcategories} = useContext(Context);
   const [file, setfile] = useState([]);
   const [files, setfiles] = useState([]);
   const { id } = useParams();
@@ -18,16 +16,15 @@ function UpdateProduct() {
         headers: adminHeaders
       })
       .then((res) => {
-        setRes(res);
-
-        formik.initialValues.name = res.data.name;
-        formik.initialValues.category = res.data.category;
-        formik.initialValues.subcategory = res.data.subcategory;
-        formik.initialValues.brand = res.data.brand;
-        formik.initialValues.price = res.data.price;
-        formik.initialValues.quantity = res.data.quantity;
-        formik.initialValues.priceAfterDiscount = res.data.priceAfterDiscount;
-        formik.initialValues.description = res.data.description;
+        console.log(res)
+        formik.initialValues.title = res.data.data.title;
+        formik.initialValues.category = res.data.data.category.name;
+        formik.initialValues.subcategory = res.data.data.subcategory[0].name;
+        formik.initialValues.brand = res.data.data.brand.name;
+        formik.initialValues.price = res.data.data.price;
+        formik.initialValues.quantity = res.data.data.quantity;
+        formik.initialValues.priceAfterDisc = res.data.data.priceAfterDisc;
+        formik.initialValues.description = res.data.data.description;
       })
       .catch((err) => console.log(err));
   }
@@ -53,7 +50,7 @@ function UpdateProduct() {
     fd.append('brand', values.brand);
     fd.append('subcategory', values.subcategory);
 
-    await updateProduct(fd);
+    await updateProduct(fd,id);
   }
 
   let formik = useFormik({
@@ -71,20 +68,10 @@ function UpdateProduct() {
     onSubmit: handelUpdate,
   });
 
-  const handleOnChange = async (event) => {
-    if (event.target.id === 'category') {
-      console.log('Form::onChange', event.target.value);
-
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/categories/${event.target.value}/subcategories`
-        );
-        setSubCategories(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  const handleChange = async (event) => {
+   await handleOnChange(event)
   };
+
   useEffect(() => {
     getOneProduct();
   }, []);
@@ -95,7 +82,7 @@ function UpdateProduct() {
 
             <div className="w-75 mx-auto py-4">
               <h3>Update Product</h3>
-              <form onSubmit={formik.handleSubmit} onChange={handleOnChange}>
+              <form onSubmit={formik.handleSubmit} onChange={handleChange}>
                 <label htmlFor="title">title:</label>
                 <input
                   className="form-control mb-2"
@@ -174,7 +161,7 @@ function UpdateProduct() {
                   className="form-control my-1"
                 >
                   <option value="">Select a subcategory</option>
-                  {subCategories.map((subcategory) => (
+                  {subcategories.map((subcategory) => (
                     <option key={subcategory._id} value={subcategory._id}>
                       {subcategory.name}
                     </option>
