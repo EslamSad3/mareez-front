@@ -26,7 +26,7 @@ export default function App() {
         className="swiper"
       >
         <SwiperSlide className="swiper-slide">
-          <img src="KSA-Small_Banner-AR.jpg" alt="" />
+          <img src="KSA-Small_Banner-AR.jpg" alt=""/>
         </SwiperSlide>
         <SwiperSlide className="swiper-slide">
           <img src="KSA-Small_Banner-AR.jpg" alt="" />

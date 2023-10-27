@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Offers.module.css';
+// import styles from './Offers.module.css';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -84,7 +84,7 @@ function Offers() {
         <Row className="text-center my-5 d-flex flex-wrap">
           {cat.map((item) => {
             return (
-        <Col xs={12} sm={6} md={3} lg={3}>
+        <Col xs={12} sm={6} md={3} lg={3} style={{marginTop:"20px"}}>
               <img
                 src={item}
                 alt=""
