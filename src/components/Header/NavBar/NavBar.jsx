@@ -43,7 +43,7 @@ const navigate = useNavigate()
             <Nav.Link>
               <Link
                 to="/cart"
-                className="text-white cart position-relative d-flex ustify-content-center align-items-center"
+                className="text-white cart position-relative d-flex justify-content-center align-items-center"
               >
                 <i className="fa-solid fa-cart-shopping fs-3"></i>
                 <h6 className="mx-2 fs-6 fw-normal">العربه</h6>
