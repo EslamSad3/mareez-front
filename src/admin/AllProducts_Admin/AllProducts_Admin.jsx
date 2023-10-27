@@ -17,9 +17,7 @@ function AllProductsAdmin() {
   return (
     <>
     {isLoading ? <Spinner animation="grow" /> :     <Container>
-      <Link to={'/admin/allProducts/add'}>
-        <Button>اضافة منتج</Button>
-      </Link>{' '}
+    
       <br />
       <h2>كل المنتجات</h2>
       <Row>
