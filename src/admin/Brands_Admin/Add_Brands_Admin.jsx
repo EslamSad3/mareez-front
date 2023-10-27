@@ -44,7 +44,7 @@ function AddBrandsAdmin() {
             />
 
             
-            <label htmlFor="image">صورة غلاف للمنتج:</label>
+            <label htmlFor="image">صورة الماركه:</label>
             <input
               className="form-control mb-2"
               value={formik.values.image}
