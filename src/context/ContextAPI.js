@@ -244,6 +244,36 @@ export function ContextProvider(props) {
   };
 
 
+  // Brands
+
+  const addBrand = async (fd)=>{
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/brands`,
+        fd,
+        {
+          headers: adminHeaders,
+        }
+      );
+      console.log(response)
+      setIsLsLoading(false);
+      if (response.status === 201) {
+        <Navigate to={'/admin/allBrands'} />;
+        toast.success(`${response.data.data.name} added successfully`, {
+          position: 'top-center',
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log(error)
+      setIsLsLoading(false);
+      toast.error('2خطأ');
+    } finally {
+      setIsLsLoading(false);
+    }
+  }
+
   const handleOnChange = async (event) => {
     if (event.target.id === 'category') {
       console.log('Form::onChange', event.target.value);
@@ -278,6 +308,7 @@ export function ContextProvider(props) {
         updateProduct,
         deleteProduct,
         handleOnChange,
+        addBrand,
         userData,
         adminData,
         loginErr,

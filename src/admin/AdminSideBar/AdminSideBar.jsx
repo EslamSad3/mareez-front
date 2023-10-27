@@ -23,8 +23,17 @@ function AdminSideBar() {
       <Link className="text-dark" to={'/admin/orders'}>
         <p className='border-bottom w-100 '>كل الطلبات</p>
       </Link>
-      <Link className="text-dark" to={'/admin/brands'}>
+      <Link className="text-dark" to={'/admin/addbrands'}>
         <p className='border-bottom w-100 '>اضافه ماركه</p>
+      </Link>
+      <Link className="text-dark" to={'/admin/addcategories'}>
+        <p className='border-bottom w-100 '>اضافه تصنيف</p>
+      </Link>
+      <Link className="text-dark" to={'/admin/addsubctegories'}>
+        <p className='border-bottom w-100 '>اضافه تصنيف فرعي</p>
+      </Link>
+      <Link className="text-dark" to={'/admin/addproducts'}>
+        <p className='border-bottom w-100 '>اضافه منتج</p>
       </Link>
     </Container>
 

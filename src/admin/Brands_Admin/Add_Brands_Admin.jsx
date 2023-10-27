@@ -1,46 +1,77 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
-import vatar from '../../Assets/avatar.png'
+import React, { useContext, useState } from 'react';
+import { Col, Row, Spinner } from 'react-bootstrap';
+import vatar from '../../Assets/avatar.png';
+import { Context } from '../../context/ContextAPI';
+import { useFormik } from 'formik';
 
 function AddBrandsAdmin() {
+  const {addBrand,isLoading,handleChange} = useContext(Context);
+  const [file, setfile] = useState([]);
+
+  const handelAdd = async function (values) {
+    const fd = new FormData();
+    if (file) {
+      fd.append('image', file);
+    }
+
+    fd.append('name', values.name);
+
+    await addBrand(fd);
+  };
+
+  let formik = useFormik({
+    initialValues: {
+      name: ''
+    },
+
+    onSubmit: handelAdd,
+  });
   return (
     <div>
-         <Row className="justify-content-start ">
+      <Row className="justify-content-start ">
         <div className="admin-content-text pb-4">اضف ماركه جديده</div>
         <Col sm="8">
-            <div className="text-form pb-2">صوره الماركه</div>
-            <div>
-                <label for="upload-photo">
-                    <img
-                        src={vatar}
-                        alt="fzx"
-                        height="100px"
-                        width="120px"
-                        style={{ cursor: "pointer" }}
-                    />
-                </label>
-                <div>
-                    <input
-                        type="file"
-                        name="photo"
-                        id="upload-photo"
-                    />
-                </div>
-            </div>
+        <form onSubmit={formik.handleSubmit} onChange={handleChange}>
+            <label htmlFor="name">اسم الماركه:</label>
             <input
-                type="text"
-                className="input-form d-block mt-3 px-3"
-                placeholder="اسم الماركه"
+              className="form-control mb-2"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              type="text"
+              name="name"
+              id="name"
             />
+
+            
+            <label htmlFor="image">صورة غلاف للمنتج:</label>
+            <input
+              className="form-control mb-2"
+              value={formik.values.image}
+              onChange={(e) => {
+                setfile(e.target.files[0]);
+              }}
+              onBlur={formik.handleBlur}
+              type="file"
+              name="image"
+              id="image"
+            />
+            {isLoading ? (
+              <Spinner animation="border" />
+            ) : (
+                <button type="submit"
+                disabled={!(formik.isValid && formik.dirty)} className="btn-save d-inline mt-2 ">حفظ التعديلات</button>
+            )}
+          </form>
         </Col>
-    </Row>
-    <Row>
+      </Row>
+      <Row>
         <Col sm="8" className="d-flex justify-content-end ">
-            <button  className="btn-save d-inline mt-2 ">حفظ التعديلات</button>
+
         </Col>
-    </Row>
+      </Row>
     </div>
-  )
+  );
 }
 
-export default AddBrandsAdmin
+export default AddBrandsAdmin;

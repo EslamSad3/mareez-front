@@ -22,6 +22,9 @@ import ProtectedRouteAdmin from './admin/ProtectedRoute_admin/ProtectedRoute_adm
 import HomeAdmin from './admin/Home_Admin/Home_Admin';
 import UsersAdmin from './admin/Users_Admin/Users_Admin';
 import AddProduct from './admin/Actions/AddProduct/AddProduct';
+import AllBrandAdmin from './admin/Brands_Admin/All_Brand_Admin';
+import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
+import AddBrandsAdmin from './admin/Brands_Admin/Add_Brands_Admin';
 
 function App() {
   return (
@@ -96,7 +99,7 @@ function App() {
             }
           />
           <Route
-            path="allProducts/add"
+            path="addproducts"
             element={
               <ProtectedRouteAdmin>
                 < AddProduct/>
@@ -107,15 +110,15 @@ function App() {
             path="allProducts/update/:id"
             element={
               <ProtectedRouteAdmin>
-                < UpdateProduct/>
+                <UpdateProduct/>
               </ProtectedRouteAdmin>
             }
           />
           <Route
-            path="brands"
+            path="addbrands"
             element={
               <ProtectedRouteAdmin>
-                <BrandsAdmin />
+                <AddBrandsAdmin />
               </ProtectedRouteAdmin>
             }
           />
