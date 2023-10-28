@@ -8,50 +8,9 @@ function UpdateProduct() {
   const { categories, brands, updateProduct,adminHeaders ,handleOnChange,subcategories} = useContext(Context);
   const [file, setfile] = useState([]);
   const [files, setfiles] = useState([]);
+  const [resposns,setRes] = useState([])
   const { id } = useParams();
 
-  async function getOneProduct() {
-    return await axios
-      .get(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
-        headers: adminHeaders
-      })
-      .then((res) => {
-        console.log(res)
-        formik.initialValues.title = res.data.data.title;
-        formik.initialValues.category = res.data.data.category.name;
-        formik.initialValues.subcategory = res.data.data.subcategory[0].name;
-        formik.initialValues.brand = res.data.data.brand.name;
-        formik.initialValues.price = res.data.data.price;
-        formik.initialValues.quantity = res.data.data.quantity;
-        formik.initialValues.priceAfterDisc = res.data.data.priceAfterDisc;
-        formik.initialValues.description = res.data.data.description;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  async function handelUpdate(values) {
-    const fd = new FormData();
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        fd.append('images', files[i]);
-      }
-    }
-
-    if (file) {
-      fd.append('imageCover', file);
-    }
-
-    fd.append('title', values.title);
-    fd.append('quantity', values.quantity);
-    fd.append('price', values.price);
-    fd.append('description', values.description);
-    fd.append('priceAfterDisc', values.priceAfterDisc);
-    fd.append('category', values.category);
-    fd.append('brand', values.brand);
-    fd.append('subcategory', values.subcategory);
-
-    await updateProduct(fd,id);
-  }
 
   let formik = useFormik({
     initialValues: {
@@ -68,22 +27,109 @@ function UpdateProduct() {
     onSubmit: handelUpdate,
   });
 
+
+  async function getOneProduct() {
+    return await axios
+      .get(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
+        headers: adminHeaders
+      })
+      .then((res) => {
+        setRes(res)
+        formik.initialValues.title =  res.data.data.title;
+        formik.initialValues.category =  res.data.data.category.name;
+        formik.initialValues.subcategory =  res.data.data.subcategory[0].name || '';
+        formik.initialValues.brand =  res.data.data.brand.name || '';
+        formik.initialValues.price =  res.data.data.price;
+        formik.initialValues.priceAfterDisc =  res.data.data.priceAfterDisc;
+        formik.initialValues.quantity =  res.data.data.quantity;
+        formik.initialValues.description =  res.data.data.description;
+      })
+      .catch((err) => console.log(err))
+  }
+
+
+  console.log(resposns)
+
+  async function handelUpdate(values,res) {
+    const fd = new FormData();
+  
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        fd.append('images', files[i]);
+      }
+    }
+  
+    if (file) {
+      fd.append('imageCover', file);
+    }
+  
+    if (values.title !== formik.initialValues.title) {
+      fd.append('title', values.title);
+    }
+  
+    if (values.quantity !== formik.initialValues.quantity) {
+      fd.append('quantity', values.quantity);
+    }
+  
+    if (values.price !== formik.initialValues.price) {
+      fd.append('price', values.price);
+    }
+  
+    if (values.priceAfterDisc !== formik.initialValues.priceAfterDisc) {
+      fd.append('priceAfterDisc', values.priceAfterDisc);
+    }
+  
+    if (values.description !== formik.initialValues.description) {
+      fd.append('description', values.description);
+    }
+  
+    if (values.category !== formik.initialValues.category) {
+      fd.append('category', values.category);
+    }
+  
+    if (values.brand !== formik.initialValues.brand) {
+      fd.append('brand', values.brand);
+    }
+  
+    if (values.subcategory !== formik.initialValues.subcategory) {
+      fd.append('subcategory', values.subcategory);
+    }
+    if (values.imageCover !== formik.initialValues.imageCover) {
+      fd.append('imageCover', resposns.data.data.imageCover);
+    }
+    if (values.images !== formik.initialValues.images) {
+      fd.append('images', resposns.data.data.images);
+    }
+
+    // Check if new images are selected before appending
+    if (files.length === 0 && file === null) {
+      fd.append('images', resposns.data.data.images);
+      fd.append('imageCover', resposns.data.data.imageCover);
+    }
+
+    await updateProduct(fd, id);
+  }
+  
+
+
+
   const handleChange = async (event) => {
+    
    await handleOnChange(event)
   };
 
   useEffect(() => {
     getOneProduct();
-  }, []);
+  }, [getOneProduct]);
   return (
     <>
       <div className="container">
         <div className="row m-0 d-flex justify-content-between">
 
             <div className="w-75 mx-auto py-4">
-              <h3>Update Product</h3>
+              <h3>تحديث المنتج</h3>
               <form onSubmit={formik.handleSubmit} onChange={handleChange}>
-                <label htmlFor="title">title:</label>
+                <label htmlFor="title">الأسم : </label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.title}
@@ -94,7 +140,7 @@ function UpdateProduct() {
                   id="title"
                 />
 
-                <label htmlFor="quantity">quantity:</label>
+                <label htmlFor="quantity">الكميه :</label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.quantity}
@@ -105,7 +151,7 @@ function UpdateProduct() {
                   id="quantity"
                 />
 
-                <label htmlFor="price">price:</label>
+                <label htmlFor="price">السعر :</label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.price}
@@ -116,7 +162,7 @@ function UpdateProduct() {
                   id="price"
                 />
 
-                <label htmlFor="priceAfterDisc">priceAfterDiscount:</label>
+                <label htmlFor="priceAfterDisc">السعر بعد الخصم:</label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.priceAfterDisc}
@@ -127,7 +173,7 @@ function UpdateProduct() {
                   id="priceAfterDisc"
                 />
 
-                <label htmlFor="description">description:</label>
+                <label htmlFor="description">الوصف :</label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.description}
@@ -138,7 +184,7 @@ function UpdateProduct() {
                   id="description"
                 />
 
-                <label htmlFor="category">category:</label>
+                <label htmlFor="category">التصنيف :</label>
                 <select
                   onChange={formik.handleChange}
                   value={formik.values.category}
@@ -153,7 +199,7 @@ function UpdateProduct() {
                   ))}
                 </select>
 
-                <label htmlFor="subcategory">subcategory:</label>
+                <label htmlFor="subcategory">التصنيف الفرعي :</label>
                 <select
                   onChange={formik.handleChange}
                   value={formik.values.subcategory}
@@ -168,7 +214,7 @@ function UpdateProduct() {
                   ))}
                 </select>
 
-                <label htmlFor="brand">brand:</label>
+                <label htmlFor="brand">الماركه :</label>
                 <select
                   onChange={formik.handleChange}
                   value={formik.values.brand}
@@ -183,7 +229,7 @@ function UpdateProduct() {
                   ))}
                 </select>
 
-                <label htmlFor="imageCover">imageCover:</label>
+                <label htmlFor="imageCover">صورة الغلاف :</label>
                 <input
                   className="form-control mb-2"
                   value={formik.values.imageCover}
@@ -195,7 +241,7 @@ function UpdateProduct() {
                   name="imageCover"
                   id="imageCover"
                 />
-                <label htmlFor="images">images:</label>
+                <label htmlFor="images">الصور :</label>
                 <input
                   className="form-control mb-2"
                   multiple
@@ -213,7 +259,7 @@ function UpdateProduct() {
                   type="submit"
                   className="btn btn-primary text-light my-3 p-2"
                 >
-                  update product
+                  تحديث المنتج
                 </button>
               </form>
             </div>

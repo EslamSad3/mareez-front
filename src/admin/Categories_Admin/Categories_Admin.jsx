@@ -1,66 +1,91 @@
-import React from 'react';
-import cat1 from '../../Assets/cat1.jpg'
-import { Button, Card, Col, Container, Modal, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Modal,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Context } from '../../context/ContextAPI';
 function CategoriesAdmin() {
+  const { categories, isLoading, deleteCategory } = useContext(Context);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  async function handleDeleteCategory(id) {
+    await deleteCategory(id);
+    handleClose();
+  }
+
   return (
-
     <Container>
-       <br />
-        <h2 className='text-center'> كل التصنيفات</h2>
+      <br />
+      <h2 className="text-center"> كل التصنيفات</h2>
       <Row>
-
-        <Col  xs="12" sm="6" md="6" lg="4" className="d-flex">
-          <Card
-              className="my-2"
-              style={{
-                  width: "100%",
-                  height: "300px",
-                  borderRadius: "8px",
-                  border: "none",
-                  backgroundColor: "#FFFFFF",
-              }}>
-              <Row className="d-flex justify-content-center px-2">
+      {categories.map((category) => {
+        return (
+          <>
+            <Col xs="12" sm="6" md="6" lg="4" className="d-flex gap-1">
+              <Card
+                key={category._id}
+                className="my-2"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#FFFFFF',
+                }}
+              >
+                <Row className="d-flex justify-content-center px-2">
                   <Col className=" d-flex justify-content-between">
-                      <div className="d-inline item-delete-edit" >ازاله</div>
-                      <Link  style={{ textDecoration: "none" }}>
-                          <div className="d-inline item-delete-edit">تعديل</div>
-                      </Link>
+                    <div className="d-inline item-delete-edit" onClick={handleShow}>ازاله</div>
+                    <Link style={{ textDecoration: 'none' }} to={`/admin/categories/${category._id}`}>
+                      <div className="d-inline item-delete-edit">تعديل</div>
+                    </Link>
                   </Col>
-              </Row>
+                </Row>
 
-                  <Card.Img style={{ height: "228px", width: "100%" }} src={cat1} />
-                  <Card.Body>
-                          <div className="card-title text-center">
-                          اسم التصنيف
-                          </div>
-                  </Card.Body>
-          </Card>
-          </Col>
-          <Modal >
+                <Card.Img
+                  style={{ height: '228px', width: '100%' }}
+                  src={category.image}
+                />
+                <Card.Body>
+                  <div className="card-title text-center">{category.name}</div>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>إزالة منتج</Modal.Title>
               </Modal.Header>
               <Modal.Body>هل انت متأكد انك تريد ازالة هذا المنتج</Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary">
+                <Button variant="secondary" onClick={handleClose}>
                   رجوع
                 </Button>
-               <Spinner animation="border" /> : <Button
-                  variant="danger"
-                 
-                >
-                  إزاله
-                </Button>
-                
+                {isLoading ? (
+                  <Spinner animation="border" />
+                ) : (
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteCategory(category._id)}
+                  >
+                    إزاله
+                  </Button>
+                )}
               </Modal.Footer>
             </Modal>
-
-            
+            </>
+        );
+      })}
       </Row>
     </Container>
-  )
-  
+  );
 }
 
 export default CategoriesAdmin;

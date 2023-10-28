@@ -125,7 +125,51 @@ export function ContextProvider(props) {
       console.log(error);
     }
   }
+  // delete Categories
+  async function deleteCategory(id) {
+    try {
+       const res = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/categories/${id}`,
+        {
+          headers: adminHeaders,
+        }
+      );
+      toast.success(` تم الحذف بنجاح`, {
+        position: 'top-center',
+        duration: 2000,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+    // add Categories
+    async function addCategory(fd) {
+      try {
+        setIsLsLoading(true);
+         const response = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/categories`,fd,
+          {
+            headers: adminHeaders,
+          }
+        ) 
+        setIsLsLoading(false);
+        if (response.status === 201) {
+          <Navigate to={'/admin/categories'} />;
+          toast.success(`${response.data.data.name} تم الاضافة بنجاح`, {
+            position: 'top-center',
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        setIsLsLoading(false);
+        toast.error('2خطأ');
+      } finally {
+        setIsLsLoading(false);
+      }
+    }
+
+    
   // Get All SubCategories
   async function getAllSubCategories() {
     try {
@@ -305,6 +349,8 @@ export function ContextProvider(props) {
         setAdminData,
         addNewProduct,
         getAllCategories,
+        addCategory,
+        deleteCategory,
         updateProduct,
         deleteProduct,
         handleOnChange,

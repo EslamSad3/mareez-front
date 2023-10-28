@@ -1,43 +1,78 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
+import React, { useContext, useState } from 'react';
+import { useFormik } from 'formik';
+import { Context } from '../../context/ContextAPI';
+import { Spinner } from 'react-bootstrap';
 
-function AddCategoryAdmin(values) {
-   
+function AddCategoryAdmin() {
+  const { addCategory, isLoading } = useContext(Context);
+  const [file, setfile] = useState([]);
+
+  const handelAdd = async function (values) {
+    const fd = new FormData();
+
+    if (file) {
+      fd.append('image', file);
+    }
+
+    fd.append('name', values.name);
+
+    await addCategory(fd);
+  };
+
+  let formik = useFormik({
+    initialValues: {
+      name: '',
+    },
+
+    onSubmit: handelAdd,
+  });
+
   return (
-    <div>
-      <Row className="justify-content-start ">
-        <div className="admin-content-text pb-4">اضف تصنيف جديد</div>
-        <Col sm="8">
-        <form >
-            <label htmlFor="name">اسم التصنيف:</label>
+    <div className="row d-flex justify-content-between">
+      <div>
+        <div className="w-75 mx-auto py-4">
+          <h3>إضافة تصنيف جديد</h3>
+          <form onSubmit={formik.handleSubmit}>
+            <label htmlFor="name">اسم تصنيف:</label>
             <input
               className="form-control mb-2"
-              value=''
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               type="text"
               name="name"
               id="name"
             />
 
-            
-            <label htmlFor="image">صورة التصنيف:</label>
+            <label htmlFor="image">صورة  تصنيف:</label>
             <input
               className="form-control mb-2"
+              value={formik.values.imageCover}
+              onChange={(e) => {
+                setfile(e.target.files[0]);
+              }}
+              onBlur={formik.handleBlur}
               type="file"
               name="image"
               id="image"
             />
-                <button type="submit" className="btn-save d-inline mt-2 ">حفظ التعديلات</button>
+
+            {isLoading ? (
+              <Spinner animation="border" />
+            ) : (
+              <button
+                type="submit"
+                disabled={!(formik.isValid && formik.dirty)}
+                className="btn-save d-inline mt-2 "
+              >
+                إضافة تصنيف
+              </button>
+            )}
           </form>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm="8" className="d-flex justify-content-end ">
-
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
-
-  )
+  );
 }
 
-export default AddCategoryAdmin
+export default AddCategoryAdmin;
