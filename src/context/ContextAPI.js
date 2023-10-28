@@ -243,14 +243,12 @@ export function ContextProvider(props) {
   const updateProduct = async (fd,id) => {
     setIsLsLoading(true);
     return await axios
-      .patch(`${process.env.REACT_APP_BASE_URL}/products/${id}`, fd, {
+      .put(`${process.env.REACT_APP_BASE_URL}/products/${id}`, fd, {
         headers: adminHeaders,
       })
-
       .then((res) => {
         if (res.status === 200) {
           setIsLsLoading(false);
-
           toast.success(`${res.data.data.title} Updated successfully`, {
             position: 'top-center',
             duration: 2000,

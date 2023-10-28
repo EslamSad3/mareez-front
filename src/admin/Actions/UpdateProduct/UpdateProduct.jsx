@@ -12,20 +12,7 @@ function UpdateProduct() {
   const { id } = useParams();
 
 
-  let formik = useFormik({
-    initialValues: {
-      title: '',
-      quantity: '',
-      price: '',
-      description: '',
-      priceAfterDisc: '',
-      category: '',
-      subcategory: '',
-      brand: '',
-    },
-
-    onSubmit: handelUpdate,
-  });
+ 
 
 
   async function getOneProduct() {
@@ -50,7 +37,7 @@ function UpdateProduct() {
 
   console.log(resposns)
 
-  async function handelUpdate(values,res) {
+  async function handelUpdate(values) {
     const fd = new FormData();
   
     if (files.length > 0) {
@@ -94,22 +81,27 @@ function UpdateProduct() {
     if (values.subcategory !== formik.initialValues.subcategory) {
       fd.append('subcategory', values.subcategory);
     }
-    if (values.imageCover !== formik.initialValues.imageCover) {
-      fd.append('imageCover', resposns.data.data.imageCover);
-    }
-    if (values.images !== formik.initialValues.images) {
-      fd.append('images', resposns.data.data.images);
-    }
 
-    // Check if new images are selected before appending
-    if (files.length === 0 && file === null) {
-      fd.append('images', resposns.data.data.images);
-      fd.append('imageCover', resposns.data.data.imageCover);
-    }
 
+    console.log(values)
     await updateProduct(fd, id);
   }
   
+  let formik = useFormik({
+    initialValues: {
+      title: '',
+      quantity: '',
+      price: '',
+      description: '',
+      priceAfterDisc: '',
+      category: '',
+      subcategory: '',
+      brand: '',
+      imageCover:''
+    },
+
+    onSubmit: handelUpdate,
+  });
 
 
 
@@ -120,7 +112,7 @@ function UpdateProduct() {
 
   useEffect(() => {
     getOneProduct();
-  }, [getOneProduct]);
+  }, []);
   return (
     <>
       <div className="container">
