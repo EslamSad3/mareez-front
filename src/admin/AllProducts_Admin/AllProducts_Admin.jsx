@@ -20,7 +20,7 @@ function AllProductsAdmin() {
         <Container>
     
       <br />
-      <h2>كل المنتجات</h2>
+      <h2 className='text-center'> كل المنتجات</h2>
       <Row>
         {products.map((item) => {
           return (

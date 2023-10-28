@@ -189,7 +189,7 @@ console.log(subcategories)
               <button
                 type="submit"
                 disabled={!(formik.isValid && formik.dirty)}
-                className="btn btn-success text-light my-3"
+                className="btn-save d-inline mt-2 "
               >
                 إضافة منتج
               </button>
