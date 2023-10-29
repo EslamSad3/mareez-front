@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import styles from './NavBar.module.css';
-import { Container, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
+import { Col, Container, Dropdown, Form, Nav, Navbar, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../../context/ContextAPI';
+import Header from '../Header';
+
 
 function NavBar() {
   const { userData,setUserData,setAdminData} = useContext(Context);
@@ -15,6 +17,7 @@ const navigate = useNavigate()
   }
 
   return (
+    <>
     <Navbar expand="lg" className={styles.nav_bg_color}>
       <Container className="text-white m-0 ">
         <Navbar.Brand>
@@ -101,6 +104,9 @@ const navigate = useNavigate()
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
+
+    </>
   );
 }
 

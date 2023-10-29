@@ -15,11 +15,11 @@ function Home() {
         <PaySection />
         <SwipperJs />
         <ShopByCategory />
+        {/* <Offers/>
         <Offers/>
         <Offers/>
         <Offers/>
-        <Offers/>
-        <Offers/>
+        <Offers/> */}
         <Offers/>
         <FootHero/>
       </Container>
