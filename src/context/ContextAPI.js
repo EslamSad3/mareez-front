@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 export const Context = createContext();
 export function ContextProvider(props) {
@@ -19,6 +19,7 @@ export function ContextProvider(props) {
   const [loginRes, setloginRes] = useState(null);
   const [signUpRes, setSignUpRes] = useState(null);
   const [isLoading, setIsLsLoading] = useState(false);
+
 
 
   let adminHeaders = {
@@ -241,6 +242,8 @@ export function ContextProvider(props) {
   // update Product
 
   const updateProduct = async (fd,id) => {
+  console.log(id)
+
     setIsLsLoading(true);
     return await axios
       .put(`${process.env.REACT_APP_BASE_URL}/products/${id}`, fd, {
