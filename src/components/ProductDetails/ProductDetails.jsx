@@ -14,6 +14,7 @@ function ProductDetails() {
             <Col lg='6' xs='12' >
                 <ProductText/>
             </Col>
+            {/* Rate */}
                 <RateContiner/>
                 <Offers/>
         </Row>
