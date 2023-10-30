@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import styles from './NavBar.module.css';
-import { Col, Container, Dropdown, Form, Nav, Navbar, Row } from 'react-bootstrap';
+import {  Container, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../../context/ContextAPI';
-import Header from '../Header';
+
 
 
 function NavBar() {
+
   const { userData,setUserData,setAdminData} = useContext(Context);
 const navigate = useNavigate()
   function signOut() {

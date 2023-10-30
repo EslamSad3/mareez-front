@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './Cart.module.css';
 import { Container } from 'react-bootstrap';
 function Cart() {
   return (

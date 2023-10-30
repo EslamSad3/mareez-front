@@ -1,31 +1,31 @@
 import React from 'react';
 // import styles from './ShopByCategory.module.css';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
-import { Pagination } from 'swiper/modules';
+// import { Pagination } from 'swiper/modules';
 import { Col, Container, Row } from 'react-bootstrap';
 
 function ShopByCategory() {
-  const data = [
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-    'KSA-Small_Banner-AR.jpg',
-  ];
+  // const data = [
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  //   'KSA-Small_Banner-AR.jpg',
+  // ];
   const cat = ['cat1.jpg', 'cat2.jpg', 'cat3.jpg', 'cat4.jpg'];
   return (
     <Container className="my-3">
-      <div className="d-flex justify-content-between align-items-center text-center">
+      {/* <div className="d-flex justify-content-between align-items-center text-center">
         <h3>تسوق حسب المجموعه</h3>
         <br />
-      </div>
+      </div> */}
 
 
-      <Swiper
+      {/* <Swiper
               breakpoints={{
                 325: {
                   slidesPerView: 2,
@@ -54,7 +54,7 @@ function ShopByCategory() {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+        </Swiper> */}
 
 
       {/* Categories */}
