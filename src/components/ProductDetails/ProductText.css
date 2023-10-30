@@ -1,0 +1,55 @@
+.titleDetails{
+    font-size: 20px;
+    font-weight: 700;
+}
+.textDes{
+    color: green;
+    width: 100px;
+    background-color: rgb(183, 218, 183);
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 13px;
+}
+.textDesc{
+    color: rgb(117, 116, 153);
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.priceDescound{
+    background: rgb(94, 221, 189);
+    margin-right: 8px;
+    padding: 5px;
+}
+.priceDesc{
+    color: rgb(117, 116, 153);
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 400;
+}
+.countersButton{
+    color: gray;
+    font-weight: 500;
+    font-size: 30px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin: 1px;
+    padding: 1px;
+
+}
+.HeartIcon{
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 3px;
+    font-size: 50px;
+}
+.buttonCart{
+    background: rgb(44, 44, 114);
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    color: antiquewhite;
+    font-size: large;
+}

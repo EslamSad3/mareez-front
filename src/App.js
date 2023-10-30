@@ -27,6 +27,7 @@ import AllBrandAdmin from './admin/Brands_Admin/All_Brand_Admin';
 import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
 import AddCategoryAdmin from './admin/Categories_Admin/AddCategoryAdmin';
 import AddSubCategoryAddmin from './admin/SubCategories_Admin/AddSubCategoryAddmin';
+import ProductDetails from './components/ProductDetails/ProductDetails';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route path="" element={<LayOut />}>
           <Route path="/" element={<Home />} />
+          <Route path="/details:id" element={<ProductDetails />} />
           <Route
             path="/cart"
             element={

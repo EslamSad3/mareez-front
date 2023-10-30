@@ -5,6 +5,7 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
 import { Pagination } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 function Offers() {
   const data = [
     '2,999 ر.س',
@@ -58,24 +59,26 @@ function Offers() {
               {data.map((item, index) => {
                 return (
                   <SwiperSlide className="swiper-slide ">
-                    <Card
-                      style={{ maxWidth: '100%' }}
-                      className="border border-0 shadow"
-                    >
-                      <Card.Img
-                        variant="top"
-                        src="item1.jpg"
-                        className="border border-0"
-                      />
-                      <Card.Body className="text-end">
-                        <Card.Text>
-                          طقم غرفة نوم كينج 5 قطع من أيرلندا - 180x200 سم هوم
-                          بوكس
-                        </Card.Text>
-                        <Card.Text className="fw-bold">{item}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </SwiperSlide>
+                      <Card
+                        style={{ maxWidth: '100%' }}
+                        className="border border-0 shadow"
+                      >
+                      <Link to={"/details:id"}>
+                        <Card.Img
+                          variant="top"
+                          src="item1.jpg"
+                          className="border border-0"
+                        />
+                     </Link>
+                        <Card.Body className="text-end">
+                          <Card.Text>
+                            طقم غرفة نوم كينج 5 قطع من أيرلندا - 180x200 سم هوم
+                            بوكس
+                          </Card.Text>
+                          <Card.Text className="fw-bold">{item}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </SwiperSlide>
                 );
               })}
             </Swiper>
