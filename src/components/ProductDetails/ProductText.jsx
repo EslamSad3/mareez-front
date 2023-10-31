@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import './ProductText.css'
@@ -6,6 +6,20 @@ import {BiSolidShoppingBags} from'react-icons/bi'
 import {AiOutlineHeart , AiOutlineShoppingCart} from'react-icons/ai'
 
 function ProductText() {
+  const [count, setCount] = useState(1);
+  // ++++++
+  const increment = () => {
+      setCount((prevCount) => prevCount + 1);
+  };
+  // --------
+  const decrement = () => {
+     if (count < 1) {
+      setCount(0);
+    } else {
+      setCount((prevCount) => prevCount - 1);
+    }
+  };
+   
   return (
     <div>
       {/* 1 */}
@@ -39,9 +53,9 @@ function ProductText() {
       <div className='d-flex justify-content-center'>
         <Col lg='3'  className='mx-2'>
           <div className='countersButton d-flex justify-content-center'>
-            <span className='mx-3' style={{fontSize: '30px'}}>+</span>
-            <span className='mx-2'>1</span>
-            <span className='mx-3' style={{fontSize: '30px'}}>-</span>
+            <span className='mx-3' onClick={increment} style={{fontSize: '30px'}}>+</span>
+            <span className='mx-2'>{count}</span>
+            <span className='mx-3' style={{fontSize: '30px'}} onClick={decrement}>-</span>
           </div>
         </Col>
         <Col lg='7' sm='12' className='mx-2'>

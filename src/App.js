@@ -4,7 +4,7 @@ import Home from './components/Home/Home';
 import LayOut from './components/LayOut/LayOut';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
-import Cart from './components/Cart/Cart';
+import CartPage from './components/Cart/CartPage';
 import MyAccount from './components/MyAccount/MyAccount';
 import UserOrders from './components/UserOrders/UserOrders';
 import UserFavlist from './components/UserFavlist/UserFavlist';
@@ -17,7 +17,7 @@ import AllProductsAdmin from './admin/AllProducts_Admin/AllProducts_Admin';
 import CategoriesAdmin from './admin/Categories_Admin/Categories_Admin';
 import OrdersAdmin from './admin/Orders_Admin/Orders_Admin';
 import SubCategoriesAdmin from './admin/SubCategories_Admin/SubCategories_Admin';
-import BrandsAdmin from './admin/Brands_Admin/Brands_Admin';
+// import BrandsAdmin from './admin/Brands_Admin/Brands_Admin';
 import ProtectedRouteAdmin from './admin/ProtectedRoute_admin/ProtectedRoute_admin';
 import HomeAdmin from './admin/Home_Admin/Home_Admin';
 import UsersAdmin from './admin/Users_Admin/Users_Admin';
@@ -40,7 +40,7 @@ function App() {
             path="/cart"
             element={
               <ProtectedRoute>
-                <Cart />
+                <CartPage />
               </ProtectedRoute>
             }
           />
