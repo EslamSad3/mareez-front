@@ -13,6 +13,7 @@ export function ContextProvider(props) {
   const [subcategories, setSubCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [loginErr, setaLoginErr] = useState(null);
   const [signUpErr, setSignUpErr] = useState(null);
@@ -220,6 +221,25 @@ export function ContextProvider(props) {
     }
   };
 
+    // delete Categories
+    async function deleteSub(sub_id) {
+      console.log(sub_id)
+      try {
+         await axios.delete(
+          `${process.env.REACT_APP_BASE_URL}/subcategories/${sub_id}`,
+          {
+            headers: adminHeaders,
+          }
+        );
+        toast.success(` تم الحذف بنجاح`, {
+          position: 'top-center',
+          duration: 2000,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   // Get All Brands
   async function getAllBrands() {
     try {
@@ -232,6 +252,53 @@ export function ContextProvider(props) {
       console.log(error);
     }
   }
+  // add Brands
+  const addBrand = async (fd) => {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/brands`,
+        fd,
+        {
+          headers: adminHeaders,
+        }
+      );
+      console.log(response);
+      setIsLsLoading(false);
+      if (response.status === 201) {
+        <Navigate to={'/admin/allBrands'} />;
+        toast.success(`${response.data.data.name} added successfully`, {
+          position: 'top-center',
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLsLoading(false);
+      toast.error('2خطأ');
+    } finally {
+      setIsLsLoading(false);
+    }
+  };
+
+// delete brand
+async function deleteBrand(Brand_id) {
+  console.log(Brand_id)
+  try {
+     await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/brands/${Brand_id}`,
+      {
+        headers: adminHeaders,
+      }
+    );
+    toast.success(` تم الحذف بنجاح`, {
+      position: 'top-center',
+      duration: 2000,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
   // Get All Product
   async function getAllProducts() {
@@ -322,35 +389,46 @@ export function ContextProvider(props) {
       });
   };
 
-  // Brands
 
-  const addBrand = async (fd) => {
-    try {
-      setIsLsLoading(true);
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/brands`,
-        fd,
-        {
-          headers: adminHeaders,
-        }
-      );
-      console.log(response);
-      setIsLsLoading(false);
-      if (response.status === 201) {
-        <Navigate to={'/admin/allBrands'} />;
-        toast.success(`${response.data.data.name} added successfully`, {
+
+// get All Users
+async function getAllUsers() {
+  try {
+    await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/users`,
+      {
+        headers: adminHeaders,
+      }
+    ).then(res => {console.log(res);setUsers(res.data.data)})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+// delete User 
+
+const deleteUser = async (selectedUser) => {
+  setIsLsLoading(true);
+  return await axios
+    .delete(`${process.env.REACT_APP_BASE_URL}/users/${selectedUser}`, {
+      headers: adminHeaders,
+    })
+
+    .then((res) => {
+      if (res.status === 204) {
+        setIsLsLoading(false);
+        toast.success(`Deleted successfully`, {
           position: 'top-center',
-          duration: 2000,
+          duration: 1000,
         });
       }
-    } catch (error) {
-      console.log(error);
+    })
+    .catch((err) => {
       setIsLsLoading(false);
-      toast.error('2خطأ');
-    } finally {
-      setIsLsLoading(false);
-    }
-  };
+      console.log(err);
+    });
+};
 
   const handleOnChange = async (event) => {
     if (event.target.id === 'category') {
@@ -374,6 +452,7 @@ export function ContextProvider(props) {
     getAllBrands();
     getAllProducts();
     getAllSubCategories()
+    getAllUsers()
   }, []);
   return (
     <Context.Provider
@@ -388,10 +467,14 @@ export function ContextProvider(props) {
         deleteCategory,
         getAllSubCategories ,
         addSubCatrgory,
+        deleteSub,
         updateProduct,
         deleteProduct,
         handleOnChange,
+        getAllBrands,
         addBrand,
+        deleteBrand,
+        deleteUser,
         userData,
         adminData,
         loginErr,
@@ -404,6 +487,7 @@ export function ContextProvider(props) {
         subcategories,
         brands,
         adminHeaders,
+        users
       }}
     >
       {props.children}

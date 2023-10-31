@@ -7,9 +7,10 @@ import { Context } from '../../context/ContextAPI';
 
 function AllProductsAdmin() {
   const { products, deleteProduct, isLoading } = useContext(Context);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  
   const handleClose = () => setShow(false);
   const [show, setShow] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleShow = (productId) => {
     setShow(true);

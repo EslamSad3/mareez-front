@@ -9,15 +9,29 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import cat1 from '../../Assets/cat1.jpg';
 import { useContext } from 'react';
 import { Context } from '../../context/ContextAPI';
+import { useState } from 'react';
 
 function AllBrandAdmin() {
-  const { brands } = useContext(Context);
+  const { brands, deleteBrand, isLoading } = useContext(Context);
+  const [show, setShow] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = (BrandID) => {
+    setShow(true);
+    setSelectedBrand(BrandID);
+  };
+
+  async function handleDeleteBrand() {
+    if (selectedBrand) {
+      await deleteBrand(selectedBrand);
+      handleClose();
+    }
+  }
   return (
-    <div>
+    <>
       <Container>
         <br />
         <h2 className="text-center"> كل الماركات</h2>
@@ -26,56 +40,82 @@ function AllBrandAdmin() {
             brands.map((brand) => {
               return (
                 <>
-                  <Col key={brand._id} xs="12" sm="6" md="6" lg="4" className="d-flex">
+                  <Col
+                    key={brand._id}
+                    xs="11"
+                    sm="5"
+                    md="5"
+                    lg="3"
+                    className="d-flex gap-1"
+                  >
                     <Card
-                      className="my-2"
+                      className="my-1 p-2"
                       style={{
                         width: '100%',
-                        height: '300px',
-                        borderRadius: '8px',
-                        border: 'none',
-                        backgroundColor: '#FFFFFF',
+                        Maxheight: '150px',
+
+                        
+                        // backgroundColor: '#FFFFFF',
                       }}
                     >
-                      <Row className="d-flex justify-content-center px-2">
-                        <Col className=" d-flex justify-content-between">
-                          <div className="d-inline item-delete-edit">ازاله</div>
-                          <Link style={{ textDecoration: 'none' }}>
-                            <div className="d-inline item-delete-edit">
+                      <Row className="d-flex justify-content-center">
+                        <Col className=" d-flex justify-content-between ">
+                          <div
+                            className="d-inline item-delete-edit text-dark"
+                            variant="danger"
+                            onClick={() => handleShow(brand._id)}
+                          >
+                            ازاله
+                          </div>
+                          <Link
+                            to={`/admin/allBrands/${brand._id}`}
+                            style={{ textDecoration: 'none' }}
+                          >
+                            <div
+                              variant="success"
+                              className="d-inline item-delete-edit text-dark"
+                            >
                               تعديل
                             </div>
                           </Link>
                         </Col>
                       </Row>
 
-                      <Card.Img
-                        style={{ height: '228px', width: '100%' }}
-                        src={brand.image}
-                      />
-                      <Card.Body>
+                      <Card.Body className='p-0'>
                         <div className="card-title text-center">
-                        {brand.name} 
+                          <h4 className='m-0'>{brand.name} </h4>
                         </div>
                       </Card.Body>
+                      <Card.Img
+                        style={{ height: '50%', width: '100%' }}
+                        src={brand.image}
+                      />
                     </Card>
                   </Col>
                 </>
               );
             })}
         </Row>
-        <Modal>
+        <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>إزالة منتج</Modal.Title>
           </Modal.Header>
           <Modal.Body>هل انت متأكد انك تريد ازالة هذا المنتج</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary">رجوع</Button>
-            <Spinner animation="border" /> :{' '}
-            <Button variant="danger">إزاله</Button>
+            <Button variant="secondary" onClick={handleClose}>
+              رجوع
+            </Button>
+            {isLoading ? (
+              <Spinner animation="border" />
+            ) : (
+              <Button variant="danger" onClick={() => handleDeleteBrand()}>
+                إزاله
+              </Button>
+            )}
           </Modal.Footer>
         </Modal>
       </Container>
-    </div>
+    </>
   );
 }
 
