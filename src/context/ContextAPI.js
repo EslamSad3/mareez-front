@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export const Context = createContext();
 export function ContextProvider(props) {
@@ -19,8 +19,6 @@ export function ContextProvider(props) {
   const [loginRes, setloginRes] = useState(null);
   const [signUpRes, setSignUpRes] = useState(null);
   const [isLoading, setIsLsLoading] = useState(false);
-
-
 
   let adminHeaders = {
     Authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
@@ -127,10 +125,11 @@ export function ContextProvider(props) {
     }
   }
   // delete Categories
-  async function deleteCategory(id) {
+  async function deleteCategory(category_id) {
+    console.log(category_id)
     try {
-       const res = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/categories/${id}`,
+       await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/categories/${category_id}`,
         {
           headers: adminHeaders,
         }
@@ -138,39 +137,40 @@ export function ContextProvider(props) {
       toast.success(` تم الحذف بنجاح`, {
         position: 'top-center',
         duration: 2000,
-      })
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-    // add Categories
-    async function addCategory(fd) {
-      try {
-        setIsLsLoading(true);
-         const response = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/categories`,fd,
-          {
-            headers: adminHeaders,
-          }
-        ) 
-        setIsLsLoading(false);
-        if (response.status === 201) {
-          <Navigate to={'/admin/categories'} />;
-          toast.success(`${response.data.data.name} تم الاضافة بنجاح`, {
-            position: 'top-center',
-            duration: 2000,
-          });
+  // add Categories
+  async function addCategory(fd) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/categories`,
+        fd,
+        {
+          headers: adminHeaders,
         }
-      } catch (error) {
+      );
+      if (response.status === 201) {
         setIsLsLoading(false);
-        toast.error('2خطأ');
-      } finally {
-        setIsLsLoading(false);
+        <Navigate to={'/admin/categories'} />;
+        toast.success(`${response.data.data.name} تم الاضافة بنجاح`, {
+          position: 'top-center',
+          duration: 2000,
+        });
       }
+    } catch (error) {
+      console.log(error)
+      setIsLsLoading(false);
+      toast.error('2خطأ');
+    } finally {
+      setIsLsLoading(false);
     }
+  }
 
-    
   // Get All SubCategories
   async function getAllSubCategories() {
     try {
@@ -178,6 +178,7 @@ export function ContextProvider(props) {
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/subcategories`
       );
+      console.log(res)
       setSubCategories(res.data.data);
       setIsLsLoading(false);
     } catch (error) {
@@ -185,6 +186,39 @@ export function ContextProvider(props) {
       console.log(error);
     }
   }
+
+  // add subCatrgory
+
+  const addSubCatrgory = async (mainCategoryID, value) => {
+    console.log(mainCategoryID,"mainCategoryID");
+    console.log(value,"value context");
+
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/categories/${mainCategoryID}/subcategories`,
+        { name: value, category: mainCategoryID },
+        {
+          headers: adminHeaders,
+        }
+      );
+      console.log(response);
+      if (response.status === 201) {
+        setIsLsLoading(false);
+        <Navigate to={'/admin/subcategories'} />;
+        toast.success(`${response.data.data.name} added successfully`, {
+          position: 'top-center',
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLsLoading(false);
+      toast.error('2خطأ');
+    } finally {
+      setIsLsLoading(false);
+    }
+  };
 
   // Get All Brands
   async function getAllBrands() {
@@ -241,8 +275,8 @@ export function ContextProvider(props) {
 
   // update Product
 
-  const updateProduct = async (fd,id) => {
-  console.log(id)
+  const updateProduct = async (fd, id) => {
+    console.log(id);
 
     setIsLsLoading(true);
     return await axios
@@ -288,10 +322,9 @@ export function ContextProvider(props) {
       });
   };
 
-
   // Brands
 
-  const addBrand = async (fd)=>{
+  const addBrand = async (fd) => {
     try {
       setIsLsLoading(true);
       const response = await axios.post(
@@ -301,7 +334,7 @@ export function ContextProvider(props) {
           headers: adminHeaders,
         }
       );
-      console.log(response)
+      console.log(response);
       setIsLsLoading(false);
       if (response.status === 201) {
         <Navigate to={'/admin/allBrands'} />;
@@ -311,13 +344,13 @@ export function ContextProvider(props) {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setIsLsLoading(false);
       toast.error('2خطأ');
     } finally {
       setIsLsLoading(false);
     }
-  }
+  };
 
   const handleOnChange = async (event) => {
     if (event.target.id === 'category') {
@@ -340,6 +373,7 @@ export function ContextProvider(props) {
     getAllCategories();
     getAllBrands();
     getAllProducts();
+    getAllSubCategories()
   }, []);
   return (
     <Context.Provider
@@ -352,6 +386,8 @@ export function ContextProvider(props) {
         getAllCategories,
         addCategory,
         deleteCategory,
+        getAllSubCategories ,
+        addSubCatrgory,
         updateProduct,
         deleteProduct,
         handleOnChange,

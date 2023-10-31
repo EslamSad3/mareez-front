@@ -50,7 +50,7 @@ console.log(subcategories)
   });
 
   const handleChange = async (event) => {
-    handleOnChange(event)
+   await handleOnChange(event)
   };
 
   return (
