@@ -17,7 +17,6 @@ import AllProductsAdmin from './admin/AllProducts_Admin/AllProducts_Admin';
 import CategoriesAdmin from './admin/Categories_Admin/Categories_Admin';
 import OrdersAdmin from './admin/Orders_Admin/Orders_Admin';
 import SubCategoriesAdmin from './admin/SubCategories_Admin/SubCategories_Admin';
-// import BrandsAdmin from './admin/Brands_Admin/Brands_Admin';
 import ProtectedRouteAdmin from './admin/ProtectedRoute_admin/ProtectedRoute_admin';
 import HomeAdmin from './admin/Home_Admin/Home_Admin';
 import UsersAdmin from './admin/Users_Admin/Users_Admin';
