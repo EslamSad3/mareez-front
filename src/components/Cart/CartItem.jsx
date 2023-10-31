@@ -21,7 +21,7 @@ function CartItem({data}) {
                                                 <Row>
                                                     <Col lg='3' xs='12'>
                                                         <div >
-                                                        <Link target='_blank' to={"/details:id"}>
+                                                        <Link target='_blank' to={"/detalis/:id"}>
 
                                                             <img src={cat1} alt="" className='ImageCartShop' />
                                                         </Link>

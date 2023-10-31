@@ -728,7 +728,7 @@ a{
 /* end user data */
 
 /* filter side style */
-.filter-title {
+/* .filter-title {
   color: #555550;
   font-family: "Almarai";
   font-size: 16px;
@@ -744,7 +744,7 @@ a{
   letter-spacing: 0;
   line-height: 17px;
   text-align: center;
-}
+} */
 /* end filter */
 #upload-photo {
   opacity: 0;

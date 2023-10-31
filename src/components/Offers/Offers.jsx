@@ -13,7 +13,7 @@ function Offers({data}) {
     <>
       <Container className="my-3">
 
-          <SubTiltle title='الاسره' btntitle=" المزيد" pathText=""/>
+          <SubTiltle title='الاسره' btntitle=" المزيد" pathText="/products"/>
           <OffersItem/>
        
         <Row className="text-center my-5 d-flex flex-wrap">

@@ -3,9 +3,18 @@ import { Col, Row } from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import './ProductText.css'
 import {BiSolidShoppingBags} from'react-icons/bi'
-import {AiOutlineHeart , AiOutlineShoppingCart} from'react-icons/ai'
+import { AiOutlineShoppingCart} from'react-icons/ai'
+import favoff from '../../Assets/fav-off.png'
+import favon from '../../Assets/fav-on.png'
 
 function ProductText() {
+  //  heart 
+  const [isFavOn, setIsFavOn] = useState(false);
+
+  const switchImage = () => {
+    setIsFavOn((prevState) => !prevState);
+  };
+  ///// count
   const [count, setCount] = useState(1);
   // ++++++
   const increment = () => {
@@ -50,25 +59,30 @@ function ProductText() {
     <hr />
      {/* 4 */}
     <Row>
-      <div className='d-flex justify-content-center'>
-        <Col lg='3'  className='mx-2'>
+      <div className='d-flex justify-content-around'>
+        <Col lg='3' xs='4' className='mx-2'>
           <div className='countersButton d-flex justify-content-center'>
             <span className='mx-3' onClick={increment} style={{fontSize: '30px'}}>+</span>
             <span className='mx-2'>{count}</span>
             <span className='mx-3' style={{fontSize: '30px'}} onClick={decrement}>-</span>
           </div>
         </Col>
-        <Col lg='7' sm='12' className='mx-2'>
+        <Col lg='7' xs='6' className='mx-2'>
           
             <button type="button" className="  buttonCart" style={{width:'100%'}}>
               <span className="glyphicon glyphicon-plus"></span> 
+               إضافة إلى 
               <AiOutlineShoppingCart className='mx-2'/>
-               إضافة إلى العربة
             </button>
           
         </Col>
-        <Col lg='2'  className='mx-2'>
-        <AiOutlineHeart className='HeartIcon' />
+        <Col lg='2' xs='2' className='mx-2'>
+          <img
+            src={isFavOn ? favon : favoff}
+            alt={isFavOn ? "Favorited" : "Not favorited"}
+            onClick={switchImage}
+            className="text-center HeartIcon"
+            />
         </Col>
       </div>
     </Row>

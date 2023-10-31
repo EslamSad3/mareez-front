@@ -3,6 +3,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import item1 from '../../Assets/item1.jpg'
 
 function OffersItem() {
     const data = [
@@ -48,10 +49,10 @@ function OffersItem() {
                   style={{ maxWidth: '100%' }}
                   className="border border-0 shadow"
                 >
-                <Link to={"/details:id"}>
+                <Link to={"/detalis/:id"}>
                   <Card.Img
                     variant="top"
-                    src="item1.jpg"
+                    src={item1}
                     className="border border-0"
                   />
                </Link>
