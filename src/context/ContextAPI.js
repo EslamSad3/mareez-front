@@ -14,6 +14,8 @@ export function ContextProvider(props) {
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState([]);
 
   const [loginErr, setaLoginErr] = useState(null);
   const [signUpErr, setSignUpErr] = useState(null);
@@ -28,17 +30,17 @@ export function ContextProvider(props) {
     Authorization: `Bearer ${localStorage.getItem('UserToken')}`,
   };
 
-  function saveUserData() {
+  async function saveUserData() {
     let userlogintoken = localStorage.getItem('UserToken');
     if (userlogintoken) {
-      let decodedToken = jwtDecode(userlogintoken);
+      let decodedToken = await jwtDecode(userlogintoken);
       setUserData(decodedToken);
     }
   }
-  function saveAdminData() {
+  async function saveAdminData() {
     let adminlogintoken = localStorage.getItem('AdminToken');
     if (adminlogintoken) {
-      let decodedToken = jwtDecode(adminlogintoken);
+      let decodedToken = await jwtDecode(adminlogintoken);
       setAdminData(decodedToken);
     }
   }
@@ -127,9 +129,9 @@ export function ContextProvider(props) {
   }
   // delete Categories
   async function deleteCategory(category_id) {
-    console.log(category_id)
+    console.log(category_id);
     try {
-       await axios.delete(
+      await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/categories/${category_id}`,
         {
           headers: adminHeaders,
@@ -164,7 +166,7 @@ export function ContextProvider(props) {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setIsLsLoading(false);
       toast.error('2خطأ');
     } finally {
@@ -179,7 +181,6 @@ export function ContextProvider(props) {
       const res = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/subcategories`
       );
-      console.log(res)
       setSubCategories(res.data.data);
       setIsLsLoading(false);
     } catch (error) {
@@ -190,9 +191,9 @@ export function ContextProvider(props) {
 
   // add subCatrgory
 
-  const addSubCatrgory = async (mainCategoryID, value) => {
-    console.log(mainCategoryID,"mainCategoryID");
-    console.log(value,"value context");
+  async function addSubCatrgory(mainCategoryID, value) {
+    console.log(mainCategoryID, 'mainCategoryID');
+    console.log(value, 'value context');
 
     try {
       setIsLsLoading(true);
@@ -219,26 +220,26 @@ export function ContextProvider(props) {
     } finally {
       setIsLsLoading(false);
     }
-  };
+  }
 
-    // delete Categories
-    async function deleteSub(sub_id) {
-      console.log(sub_id)
-      try {
-         await axios.delete(
-          `${process.env.REACT_APP_BASE_URL}/subcategories/${sub_id}`,
-          {
-            headers: adminHeaders,
-          }
-        );
-        toast.success(` تم الحذف بنجاح`, {
-          position: 'top-center',
-          duration: 2000,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+  // delete Categories
+  async function deleteSub(sub_id) {
+    console.log(sub_id);
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/subcategories/${sub_id}`,
+        {
+          headers: adminHeaders,
+        }
+      );
+      toast.success(` تم الحذف بنجاح`, {
+        position: 'top-center',
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log(error);
     }
+  }
 
   // Get All Brands
   async function getAllBrands() {
@@ -253,7 +254,7 @@ export function ContextProvider(props) {
     }
   }
   // add Brands
-  const addBrand = async (fd) => {
+  async function addBrand(fd) {
     try {
       setIsLsLoading(true);
       const response = await axios.post(
@@ -279,26 +280,26 @@ export function ContextProvider(props) {
     } finally {
       setIsLsLoading(false);
     }
-  };
-
-// delete brand
-async function deleteBrand(Brand_id) {
-  console.log(Brand_id)
-  try {
-     await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/brands/${Brand_id}`,
-      {
-        headers: adminHeaders,
-      }
-    );
-    toast.success(` تم الحذف بنجاح`, {
-      position: 'top-center',
-      duration: 2000,
-    });
-  } catch (error) {
-    console.log(error);
   }
-}
+
+  // delete brand
+  async function deleteBrand(Brand_id) {
+    console.log(Brand_id);
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/brands/${Brand_id}`,
+        {
+          headers: adminHeaders,
+        }
+      );
+      toast.success(` تم الحذف بنجاح`, {
+        position: 'top-center',
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Get All Product
   async function getAllProducts() {
@@ -314,7 +315,7 @@ async function deleteBrand(Brand_id) {
   }
 
   // Add product
-  const addNewProduct = async (fd) => {
+  async function addNewProduct(fd) {
     try {
       setIsLsLoading(true);
       const response = await axios.post(
@@ -338,11 +339,11 @@ async function deleteBrand(Brand_id) {
     } finally {
       setIsLsLoading(false);
     }
-  };
+  }
 
   // update Product
 
-  const updateProduct = async (fd, id) => {
+  async function updateProduct(fd, id) {
     console.log(id);
 
     setIsLsLoading(true);
@@ -363,11 +364,11 @@ async function deleteBrand(Brand_id) {
         setIsLsLoading(false);
         console.log(err);
       });
-  };
+  }
 
   // update Product
 
-  const deleteProduct = async (id) => {
+  async function deleteProduct(id) {
     setIsLsLoading(true);
     return await axios
       .delete(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
@@ -387,50 +388,82 @@ async function deleteBrand(Brand_id) {
         setIsLsLoading(false);
         console.log(err);
       });
-  };
-
-
-
-// get All Users
-async function getAllUsers() {
-  try {
-    await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/users`,
-      {
-        headers: adminHeaders,
-      }
-    ).then(res => {console.log(res);setUsers(res.data.data)})
-  } catch (error) {
-    console.log(error);
   }
-}
 
-
-// delete User 
-
-const deleteUser = async (selectedUser) => {
-  setIsLsLoading(true);
-  return await axios
-    .delete(`${process.env.REACT_APP_BASE_URL}/users/${selectedUser}`, {
-      headers: adminHeaders,
-    })
-
-    .then((res) => {
-      if (res.status === 204) {
-        setIsLsLoading(false);
-        toast.success(`Deleted successfully`, {
-          position: 'top-center',
-          duration: 1000,
+  // get All Users
+  async function getAllUsers() {
+    try {
+      await axios
+        .get(`${process.env.REACT_APP_BASE_URL}/users`, {
+          headers: adminHeaders,
+        })
+        .then((res) => {
+          setUsers(res.data.data);
         });
-      }
-    })
-    .catch((err) => {
-      setIsLsLoading(false);
-      console.log(err);
-    });
-};
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  const handleOnChange = async (event) => {
+  // delete User
+
+  async function deleteUser(selectedUser) {
+    setIsLsLoading(true);
+    return await axios
+      .delete(`${process.env.REACT_APP_BASE_URL}/users/${selectedUser}`, {
+        headers: adminHeaders,
+      })
+
+      .then((res) => {
+        if (res.status === 204) {
+          setIsLsLoading(false);
+          toast.success(`Deleted successfully`, {
+            position: 'top-center',
+            duration: 1000,
+          });
+        }
+      })
+      .catch((err) => {
+        setIsLsLoading(false);
+        console.log(err);
+      });
+  }
+
+  // get one order
+  
+  async function getOneOrder(id) {
+    console.log(id)
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/orders/${id}`,
+        { headers: adminHeaders }
+      );
+      setIsLsLoading(false);
+      setOrder(response.data.data);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
+
+  // get all orders
+  async function getAllOrders() {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/orders`,
+        { headers: adminHeaders }
+      );
+      setIsLsLoading(false);
+      setOrders(response.data.data);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
+
+  async function handleOnChange(event) {
     if (event.target.id === 'category') {
       console.log('Form::onChange', event.target.value);
 
@@ -443,7 +476,7 @@ const deleteUser = async (selectedUser) => {
         console.log(error);
       }
     }
-  };
+  }
 
   useEffect(() => {
     saveUserData();
@@ -451,8 +484,10 @@ const deleteUser = async (selectedUser) => {
     getAllCategories();
     getAllBrands();
     getAllProducts();
-    getAllSubCategories()
-    getAllUsers()
+    getAllSubCategories();
+    getAllUsers();
+    getAllOrders()
+    getOneOrder()
   }, []);
   return (
     <Context.Provider
@@ -465,13 +500,14 @@ const deleteUser = async (selectedUser) => {
         getAllCategories,
         addCategory,
         deleteCategory,
-        getAllSubCategories ,
+        getAllSubCategories,
         addSubCatrgory,
         deleteSub,
         updateProduct,
         deleteProduct,
         handleOnChange,
         getAllBrands,
+        getOneOrder,
         addBrand,
         deleteBrand,
         deleteUser,
@@ -487,7 +523,9 @@ const deleteUser = async (selectedUser) => {
         subcategories,
         brands,
         adminHeaders,
-        users
+        users,
+        orders,
+        order
       }}
     >
       {props.children}

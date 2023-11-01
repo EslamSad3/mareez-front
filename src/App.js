@@ -27,6 +27,7 @@ import UpdateProduct from './admin/Actions/UpdateProduct/UpdateProduct';
 import AddCategoryAdmin from './admin/Categories_Admin/AddCategoryAdmin';
 import AddSubCategoryAddmin from './admin/SubCategories_Admin/AddSubCategoryAddmin';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import OrderDetailsAdmin from './admin/Orders_Admin/Order_Details/OrderDetailsAdmin';
 
 function App() {
   return (
@@ -154,6 +155,14 @@ function App() {
             element={
               <ProtectedRouteAdmin>
                 <OrdersAdmin />
+              </ProtectedRouteAdmin>
+            }
+          />
+          <Route
+            path="orders/:id"
+            element={
+              <ProtectedRouteAdmin>
+                <OrderDetailsAdmin />
               </ProtectedRouteAdmin>
             }
           />
