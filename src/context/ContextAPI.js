@@ -24,10 +24,10 @@ export function ContextProvider(props) {
   const [isLoading, setIsLsLoading] = useState(false);
 
   let adminHeaders = {
-    Authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
+    authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
   };
   let userHeaders = {
-    Authorization: `Bearer ${localStorage.getItem('UserToken')}`,
+    authorization: `Bearer ${localStorage.getItem('UserToken')}`,
   };
 
   async function saveUserData() {
@@ -430,9 +430,9 @@ export function ContextProvider(props) {
   }
 
   // get one order
-  
+
   async function getOneOrder(id) {
-    console.log(id)
+    console.log(id);
     try {
       setIsLsLoading(true);
       const response = await axios.get(
@@ -463,6 +463,21 @@ export function ContextProvider(props) {
     }
   }
 
+  async function changeOrderStatus(orderID, Orderstatus) {
+    try {
+      setIsLsLoading(true);
+    await axios.patch(
+      `${process.env.REACT_APP_BASE_URL}/orders/${orderID}/${Orderstatus}`,
+      { headers: adminHeaders }
+    );
+    console.log(adminHeaders)
+      setIsLsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLsLoading(false)
+    }
+  }
+
   async function handleOnChange(event) {
     if (event.target.id === 'category') {
       console.log('Form::onChange', event.target.value);
@@ -486,8 +501,8 @@ export function ContextProvider(props) {
     getAllProducts();
     getAllSubCategories();
     getAllUsers();
-    getAllOrders()
-    getOneOrder()
+    getAllOrders();
+    getOneOrder();
   }, []);
   return (
     <Context.Provider
@@ -508,6 +523,7 @@ export function ContextProvider(props) {
         handleOnChange,
         getAllBrands,
         getOneOrder,
+        changeOrderStatus,
         addBrand,
         deleteBrand,
         deleteUser,
@@ -525,7 +541,7 @@ export function ContextProvider(props) {
         adminHeaders,
         users,
         orders,
-        order
+        order,
       }}
     >
       {props.children}

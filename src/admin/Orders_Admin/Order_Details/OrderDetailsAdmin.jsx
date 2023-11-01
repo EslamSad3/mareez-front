@@ -4,14 +4,19 @@ import { Link, useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from '../../../context/ContextAPI';
 import { useEffect } from 'react';
+import { useState } from 'react';
 function OrderDetailsAdmin() {
   const { id } = useParams();
-  const { order, getOneOrder } = useContext(Context);
+  const [Orderstate, setOrderStatus] = useState('');
+  const { order, getOneOrder, changeOrderStatus } = useContext(Context);
   async function getOrder() {
     await getOneOrder(id);
   }
 
-  console.log(order);
+  async function handleChangeOrderStatus(){
+    await changeOrderStatus(id,Orderstate)
+  }
+  console.log(Orderstate);
   useEffect(() => {
     getOrder();
   }, []);
@@ -63,6 +68,19 @@ function OrderDetailsAdmin() {
             </div>
             <div className=" pt-2 text-dark">
               الإجمالي : {order.totalOrderPrice}
+            </div>
+              <p>حالة الطلب : {order.status}</p>
+              
+              <br />
+            <div className="d-flex justify-content-around border border-1 p-1 w-50 ">
+              <select name="" id="" className="w-100"
+              onChange={(e)=> setOrderStatus(e.target.value.toString())}
+              >
+                <option value="under review">قيد المراجعه</option>
+                <option value="shipping">جاري الشحن</option>
+                <option value="delivered">تم التوصيل</option>
+              </select>
+              <button  onClick={handleChangeOrderStatus}>تغيير الحاله</button>
             </div>
           </Row>
         </>
