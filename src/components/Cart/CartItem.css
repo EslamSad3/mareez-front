@@ -1,3 +1,7 @@
+.ItemCard{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
 .CartShop{
     height: 100%;
     width: 100%;
@@ -24,9 +28,25 @@
     font-size: 20px;
     font-weight: 500;
     margin: 15px;
-    color:darkseagreen;
+    color:rgb(184, 113, 33);
 }
   .DeleteIcon{
     width: 25px;
     height: 25px;
+  }
+
+  .PlusIcon{
+    font-size: 18px;
+
+    color: white;
+  }
+  .InfoAddress{
+    text-align: center;
+    background-color: #fae7d2;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    border-radius: 10px;
+  }
+  .ArrowIcon{
+    font-size: 23px;
   }

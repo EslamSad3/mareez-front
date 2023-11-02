@@ -18,20 +18,21 @@ function CartPage() {
     <>
             {
                 data.length >=1 ? (
-        <Container style={{minHeight:'500px'}}>
+        <Container style={{minHeight:'500px'}} dir='ltr'>
             <Row>
                 <div className='cart-title mt-4'>
                     عربة التسوق
                 </div>
             </Row>
-                <Row className='d-flex justify-content-center'>
-                    <Col xs='12' md='9'>
-                        <CartItem data={data}/>
-                        <CartItem data={data}/>
+                <Row className='d-flex justify-content-center' dir=''>
+
+                    <Col xs='12' md='4' dir='ltr'>
+                        <CartCheckout/>
                     </Col>
 
-                    <Col xs='6' md='3'>
-                        <CartCheckout/>
+                    <Col xs='12' md='8' dir='rtl'>
+                        <CartItem data={data}/>
+                        <CartItem data={data}/>
                     </Col>
                 </Row>
 
