@@ -13,6 +13,7 @@ function HomeAdmin(props) {
           <AdminSideBar />
         </Col>
         <Col sm="8" xs="12" md="9" className='border rounded-1 mt-5 p-3'>
+          
           <Outlet>{props.children}</Outlet>
         </Col>
       </Row>
