@@ -2,26 +2,39 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import {AiFillPlusCircle} from 'react-icons/ai'
+import {PiArrowArcLeftLight} from 'react-icons/pi'
+import './CartItem.css'
 
 function CartCheckout() {
   return (
     <div>
-        <Row className="my-1 d-flex justify-content-center cart-checkout pt-3">
+        <Row className="my-3 d-flex justify-content-center cart-checkout pt-3 ItemCard">
     <Col xs="12" className="d-flex  flex-column  ">
-        {/* <div className="d-flex  ">
+        <div className="d-flex " >
+            <button  className="copon-btn d-inline "  >تفعيل</button>
             <input
                 className="copon-input d-inline text-center "
                 placeholder="كود الخصم"
             />
-            <button  className="copon-btn d-inline ">تطبيق</button>
-        </div> */}
-        <div className="product-price d-inline w-100 my-3  border"> ريال  3000 </div>
+        </div>
+        <div className="product-price d-inline w-100 my-3  border">ريال  3000 </div>
+        <hr />
+        <div className='InfoAddress'>
+            <h6>
+              <span className='mx-1' style={{color:'#c9771a'}}> تكاليف التوصيل </span> سوف يتم حسابها بعد إضافة عنوان التوصيل  
+                <PiArrowArcLeftLight className='mx-3 ArrowIcon'/>
+              </h6>
+        </div>
         <Link
-            to="/order/payment"
+            to="/cart/addAddress"
             style={{ textDecoration: "none" }}
             className="product-cart-add  d-inline ">
 
-            <button className="product-cart-add w-100 px-2"> اتمام الشراء</button>
+            <button className="product-cart-add w-100 px-2"> 
+            <AiFillPlusCircle className='PlusIcon mx-2'/>
+            أضف عنوان 
+            </button>
         </Link>
         <button  className="product-cart-add w-100 px-2 my-1"> مسح العربة</button>
     </Col>

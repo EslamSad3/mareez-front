@@ -14,7 +14,7 @@ function CartItem({data}) {
                 {
                         data.map((item , index) => {
                             return(
-                                <Card key={index} className='my-3'>
+                                <Card key={index} className='my-3 ItemCard' >
                                     <Col lg='12' >
                                         <div className='CartShop'>
                                             <Container>
@@ -32,7 +32,7 @@ function CartItem({data}) {
                                                             <p className='CartShopDecs'>
                                                             {item.title}
                                                             </p>
-                                                            <p>قرص تخزين اس اسْ دي مقاس 2.5 بوصة بسعة 120 جيجابايت ومنفذ ساتا 3.0 من هيكفيجن، رقم المنتج: HS-SSD-C100/120G</p>
+                                                            <p className='CartShopDecs'>قرص تخزين اس اسْ دي مقاس 2.5 بوصة بسعة 120 جيجابايت ومنفذ ساتا 3.0 من هيكفيجن، رقم المنتج: HS-SSD-C100/120G</p>
                                                             <Row>
                                                                 <div>
                                                                     <BiSolidShoppingBags style={{fontSize:'30px'}} className='mx-2'/>

@@ -28,6 +28,9 @@ import AddCategoryAdmin from './admin/Categories_Admin/AddCategoryAdmin';
 import AddSubCategoryAddmin from './admin/SubCategories_Admin/AddSubCategoryAddmin';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import OrderDetailsAdmin from './admin/Orders_Admin/Order_Details/OrderDetailsAdmin';
+import HomeAddAddress from './components/AddressUser/HomeAddAddress';
+import UserAddress from './components/AddressUser/UserAddress';
+import HomePayment from './components/Payment/HomePayment';
 
 function App() {
   return (
@@ -36,6 +39,9 @@ function App() {
         <Route path="" element={<LayOut />}>
           <Route path="/" element={<Home />} />
           <Route path="/detalis/:id" element={<ProductDetails />} />
+          <Route path="/cart/addAddress" element={<HomeAddAddress />} />
+          <Route path="/cart/userAddress" element={<UserAddress />} />
+          <Route path="/checkouts/payment" element={<HomePayment />} />
           <Route
             path="/cart"
             element={
