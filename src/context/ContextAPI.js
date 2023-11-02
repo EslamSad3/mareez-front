@@ -26,12 +26,11 @@ export function ContextProvider(props) {
   const [payLoading, setpayLoading] = useState(false);
 
   let adminHeaders = {
-    Authorization: `Bearer ${localStorage.getItem('AdminToken')}`
+    Authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
   };
 
-
   let userHeaders = {
-    Authorization: `Bearer ${localStorage.getItem('UserToken')}`
+    Authorization: `Bearer ${localStorage.getItem('UserToken')}`,
   };
 
   async function saveUserData() {
@@ -472,9 +471,9 @@ export function ContextProvider(props) {
   }
 
   async function changeOrderStatus(id, Orderstate) {
-    console.log(Orderstate,'Orderstate from context')
+    console.log(Orderstate, 'Orderstate from context');
     try {
-      setdeliverLoading(true)
+      setdeliverLoading(true);
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/orders/${id}/${Orderstate}`,
         {},
@@ -482,30 +481,30 @@ export function ContextProvider(props) {
           headers: adminHeaders,
         }
       );
-      setdeliverLoading(false)
+      setdeliverLoading(false);
       toast.success(` تم تحديث حالة الطلب`, {
         position: 'top-center',
         duration: 1000,
       });
-      console.log(response)
+      console.log(response);
       return response.data; // you might want to return some data here
     } catch (error) {
-      setdeliverLoading(false)
+      setdeliverLoading(false);
       toast.error(` خطأ في تحديث حالة الطلب`, {
         position: 'top-center',
         duration: 1000,
       });
-      setdeliverLoading(false)
+      setdeliverLoading(false);
       console.log(error);
       // handle error appropriately
     }
   }
-  
+
   async function changeOrderPatmentStatus(id, Paymentstatus) {
-    console.log(Paymentstatus,'Paymentstatus from context')
+    console.log(Paymentstatus, 'Paymentstatus from context');
 
     try {
-      setpayLoading(true)
+      setpayLoading(true);
       const response = await axios.patch(
         `${process.env.REACT_APP_BASE_URL}/orders/${id}/${Paymentstatus}`,
         {},
@@ -513,25 +512,24 @@ export function ContextProvider(props) {
           headers: adminHeaders,
         }
       );
-      setpayLoading(false)
+      setpayLoading(false);
       toast.success(` تم تحديث حالة الدفع`, {
         position: 'top-center',
         duration: 1000,
       });
-      console.log(response)
+      console.log(response);
       return response.data; // you might want to return some data here
     } catch (error) {
-      setpayLoading(false)
+      setpayLoading(false);
       toast.error(` خطأ في تحديث حالة الدفع`, {
         position: 'top-center',
         duration: 1000,
       });
-      setpayLoading(false)
+      setpayLoading(false);
       console.log(error);
       // handle error appropriately
     }
   }
-  
 
   async function handleOnChange(event) {
     if (event.target.id === 'category') {
