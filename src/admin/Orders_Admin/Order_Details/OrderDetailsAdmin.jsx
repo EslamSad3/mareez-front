@@ -1,25 +1,42 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Col, Row, Spinner } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from '../../../context/ContextAPI';
 import { useEffect } from 'react';
 import { useState } from 'react';
+
 function OrderDetailsAdmin() {
   const { id } = useParams();
   const [Orderstate, setOrderStatus] = useState('');
-  const { order, getOneOrder, changeOrderStatus } = useContext(Context);
+  const [PaymentStatus, setPaymentStatus] = useState('');
+  const {
+    order,
+    getOneOrder,
+    deliverLoading,
+    payLoading,
+    changeOrderStatus,
+    changeOrderPatmentStatus,
+  } = useContext(Context);
+
   async function getOrder() {
     await getOneOrder(id);
   }
 
-  async function handleChangeOrderStatus(){
-    await changeOrderStatus(id,Orderstate)
+  async function handleOrderStatus() {
+    await changeOrderStatus(id, Orderstate);
+    console.log(Orderstate, 'Orderstate');
   }
-  console.log(Orderstate);
+  
+  async function handleOrderPaymentStatus() {
+    await changeOrderPatmentStatus(id, PaymentStatus);
+    console.log(PaymentStatus, 'PaymentStatus');
+  }
+
   useEffect(() => {
     getOrder();
   }, []);
+
   return (
     <>
       {order && order.cartItems ? (
@@ -56,8 +73,8 @@ function OrderDetailsAdmin() {
           <Row className="mt-3">
             <h6>بيانات العميل</h6>
             <div>
-              <h6>العنوان</h6>
               <p> اسم العميل : {order.user.name}</p>
+              <h6>العنوان</h6>
               <p> المدينه : {order.shippingAddress.city}</p>
               <p> تفاصيل : {order.shippingAddress.details}</p>
               <p> رقم الهاتف : {order.shippingAddress.phone}</p>
@@ -69,20 +86,64 @@ function OrderDetailsAdmin() {
             <div className=" pt-2 text-dark">
               الإجمالي : {order.totalOrderPrice}
             </div>
-              <p>حالة الطلب : {order.status}</p>
-              
-              <br />
-            <div className="d-flex justify-content-around border border-1 p-1 w-50 ">
-              <select name="" id="" className="w-100"
-              onChange={(e)=> setOrderStatus(e.target.value.toString())}
+            <p>حالة الطلب : {order.status}</p>
+
+            <br />
+            <div className="d-flex justify-content-around p-1 w-full ">
+              <select
+                name="deliver"
+                id="deliver"
+                className="w-50 border-1 rounded-3 p-2"
+                onChange={(e) => setOrderStatus(e.target.value)}
+                value={Orderstate} // Add this line
               >
-                <option value="under review">قيد المراجعه</option>
+                <option value="review">قيد المراجعه</option>
                 <option value="shipping">جاري الشحن</option>
                 <option value="delivered">تم التوصيل</option>
               </select>
-              <button  onClick={handleChangeOrderStatus}>تغيير الحاله</button>
+
+              {deliverLoading ? (
+                <Spinner animation="border" />
+              ) : (
+                <button
+                  type="button"
+                  className="btn-save d-inline mt-2 "
+                  onClick={() => handleOrderStatus()}
+                >
+                  تحديث حالة الطلب
+                </button>
+              )}
             </div>
+
+            <br />
           </Row>
+          <p>
+            حالة الدفع : {order.isPaid === 'paid' ? 'تم الدفع' : 'لم يتم الدفع'}
+          </p>
+          <div className="d-flex justify-content-around p-1 w-full ">
+            <select
+              name="pay"
+              id="pay"
+              className="w-50 border-1 rounded-3 p-2"
+              onChange={(e) => setPaymentStatus(e.target.value)}
+              value={PaymentStatus} // Add this line
+            >
+              <option value="paid"> تم الدفع</option>
+              <option value="NotPaid"> لم يتم الدفع</option>
+            </select>
+
+            {payLoading ? (
+              <Spinner animation="border" />
+            ) : (
+              <button
+                type="button"
+                className="btn-save d-inline mt-2 "
+                onClick={() => handleOrderPaymentStatus()}
+              >
+                تحديث حالة الدفع
+              </button>
+            )}
+          </div>
         </>
       ) : (
         <p>Loading...</p>
@@ -90,5 +151,4 @@ function OrderDetailsAdmin() {
     </>
   );
 }
-
 export default OrderDetailsAdmin;

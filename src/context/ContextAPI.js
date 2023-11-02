@@ -22,12 +22,16 @@ export function ContextProvider(props) {
   const [loginRes, setloginRes] = useState(null);
   const [signUpRes, setSignUpRes] = useState(null);
   const [isLoading, setIsLsLoading] = useState(false);
+  const [deliverLoading, setdeliverLoading] = useState(false);
+  const [payLoading, setpayLoading] = useState(false);
 
   let adminHeaders = {
-    authorization: `Bearer ${localStorage.getItem('AdminToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('AdminToken')}`
   };
+
+
   let userHeaders = {
-    authorization: `Bearer ${localStorage.getItem('UserToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('UserToken')}`
   };
 
   async function saveUserData() {
@@ -425,6 +429,10 @@ export function ContextProvider(props) {
       })
       .catch((err) => {
         setIsLsLoading(false);
+        toast.error(`Deleted failed`, {
+          position: 'top-center',
+          duration: 1000,
+        });
         console.log(err);
       });
   }
@@ -463,20 +471,67 @@ export function ContextProvider(props) {
     }
   }
 
-  async function changeOrderStatus(orderID, Orderstatus) {
+  async function changeOrderStatus(id, Orderstate) {
+    console.log(Orderstate,'Orderstate from context')
     try {
-      setIsLsLoading(true);
-    await axios.patch(
-      `${process.env.REACT_APP_BASE_URL}/orders/${orderID}/${Orderstatus}`,
-      { headers: adminHeaders }
-    );
-    console.log(adminHeaders)
-      setIsLsLoading(false)
+      setdeliverLoading(true)
+      const response = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/orders/${id}/${Orderstate}`,
+        {},
+        {
+          headers: adminHeaders,
+        }
+      );
+      setdeliverLoading(false)
+      toast.success(` تم تحديث حالة الطلب`, {
+        position: 'top-center',
+        duration: 1000,
+      });
+      console.log(response)
+      return response.data; // you might want to return some data here
     } catch (error) {
-      console.log(error)
-      setIsLsLoading(false)
+      setdeliverLoading(false)
+      toast.error(` خطأ في تحديث حالة الطلب`, {
+        position: 'top-center',
+        duration: 1000,
+      });
+      setdeliverLoading(false)
+      console.log(error);
+      // handle error appropriately
     }
   }
+  
+  async function changeOrderPatmentStatus(id, Paymentstatus) {
+    console.log(Paymentstatus,'Paymentstatus from context')
+
+    try {
+      setpayLoading(true)
+      const response = await axios.patch(
+        `${process.env.REACT_APP_BASE_URL}/orders/${id}/${Paymentstatus}`,
+        {},
+        {
+          headers: adminHeaders,
+        }
+      );
+      setpayLoading(false)
+      toast.success(` تم تحديث حالة الدفع`, {
+        position: 'top-center',
+        duration: 1000,
+      });
+      console.log(response)
+      return response.data; // you might want to return some data here
+    } catch (error) {
+      setpayLoading(false)
+      toast.error(` خطأ في تحديث حالة الدفع`, {
+        position: 'top-center',
+        duration: 1000,
+      });
+      setpayLoading(false)
+      console.log(error);
+      // handle error appropriately
+    }
+  }
+  
 
   async function handleOnChange(event) {
     if (event.target.id === 'category') {
@@ -524,6 +579,7 @@ export function ContextProvider(props) {
         getAllBrands,
         getOneOrder,
         changeOrderStatus,
+        changeOrderPatmentStatus,
         addBrand,
         deleteBrand,
         deleteUser,
@@ -534,6 +590,8 @@ export function ContextProvider(props) {
         loginRes,
         signUpRes,
         isLoading,
+        deliverLoading,
+        payLoading,
         products,
         categories,
         subcategories,
