@@ -23,7 +23,7 @@ function SubCategoriesAdmin() {
   console.log(subcategories);
   return (
     <>
-      {subcategories.length > 0 ? (
+      {subcategories&& subcategories.length > 0 ? (
         <Container>
           <br />
           <h2 className="text-center"> كل التصنيفات الفرعيه</h2>
@@ -55,11 +55,11 @@ function SubCategoriesAdmin() {
                             </Link>
                           </div>
                           <div className="text-center my-3">
-                            <p className="card-text"> الإسم : {sub.name}</p>
+                            <p className="card-text"> الإسم : {sub&& sub.name}</p>
                             <p className="card-text">
                               {' '}
                               إسم التصنيف الرئيسي :{' '}
-                              {sub.category.name ? sub.category.name : ''}
+                              {sub &&sub.category &&sub.category.name ? sub.category.name : ''}
                             </p>
                           </div>
                         </div>

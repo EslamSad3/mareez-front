@@ -47,7 +47,7 @@ function AddCategoryAdmin() {
             <label htmlFor="image">صورة  تصنيف:</label>
             <input
               className="form-control mb-2"
-              value={formik.values.imageCover}
+              value={formik.values.image}
               onChange={(e) => {
                 setfile(e.target.files[0]);
               }}

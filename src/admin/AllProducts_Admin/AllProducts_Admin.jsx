@@ -84,18 +84,18 @@ function AllProductsAdmin() {
                           <Card.Title>
                             <div className="card-title">{item.title}</div>
                           </Card.Title>
-                          <Card.Title>
-                            <p className="card-title">{item.description}</p>
-                          </Card.Title>
-                          <Card.Text>
+                          <Card.Text className='m-2'>
                             <div className="d-flex justify-content-between">
-                              <div className="card-rate">4.5</div>
+                              <div className="card-rate">{item.rates}</div>
                               <div className="d-flex">
-                                <div className="card-currency mx-1">جنيه</div>
-                                <div className="card-price">5000</div>
+                                <div className="card-currency mx-1">ر.س</div>
+                                <div className="card-price">{item.price}</div>
                               </div>
                             </div>
                           </Card.Text>
+                          <Card.Title>
+                            <p className="card-title">{item.description}</p>
+                          </Card.Title>
                         </Card.Body>
                       </Link>
                     </Card>

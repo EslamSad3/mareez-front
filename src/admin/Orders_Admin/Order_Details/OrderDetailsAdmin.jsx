@@ -50,18 +50,18 @@ function OrderDetailsAdmin() {
               >
                 <>
                   <div className="d-inline pt-2 cat-title">
-                    <p> اسم المنتج : {item.product.title}</p>
+                    <p> اسم المنتج : {item && item.product &&item.product.title}</p>
 
                     <div className="d-inline pt-2 cat-rate me-2">
-                      السعر : {item.product.price || '0'}
+                      السعر : {item && item.product &&item.product.price}
                     </div>
                     <div className="d-inline pt-2 cat-rate me-2">
-                      الكمية : {item.quantity || '0'}
+                      الكمية : {item && item.product &&item.product.quantity}
                     </div>
                   </div>
                   <div>
                     <img
-                      src={item.product.imageCover}
+                      src={item && item.product &&item.product.imageCover}
                       style={{ width: '85px' }}
                       alt=""
                     />
