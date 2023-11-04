@@ -32,6 +32,9 @@ import HomeAddAddress from './components/AddressUser/HomeAddAddress';
 import UserAddress from './components/AddressUser/UserAddress';
 import HomePayment from './components/Payment/HomePayment';
 import ProductsByCategory from './components/ProductsBy/ProductsByCategory/ProductsByCategory';
+import CodePassword from './components/ForgotPassword/CodePassword';
+import NewPassword from './components/ForgotPassword/NewPassword';
+
 
 function App() {
   return (
@@ -89,6 +92,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/enter-Code" element={<CodePassword />} />
+        <Route path="/new-Password" element={<NewPassword />} />
       </Routes>
 
       {/* Admin */}
