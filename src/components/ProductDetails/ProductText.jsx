@@ -8,12 +8,18 @@ import favoff from '../../Assets/fav-off.png';
 import favon from '../../Assets/fav-on.png';
 import { useContext } from 'react';
 import { Context } from '../../context/ContextAPI';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
 
 function ProductText() {
-  const { productDetails } = useContext(Context);
-
+  const { productDetails,addToCart ,userData,loggedUsercart} = useContext(Context);
+  const [user, setuser] = useState('');
+const {id} = useParams()
   //  heart
-  console.log(productDetails);
+console.log(loggedUsercart)
+  async function handleAddToCart(){
+await addToCart(id)
+  }
   const [isFavOn, setIsFavOn] = useState(false);
 
   const switchImage = () => {
@@ -34,6 +40,13 @@ function ProductText() {
     }
   };
 
+  useEffect(() => {
+    if(userData){
+      setuser(userData.payload)
+    }
+
+  }, [userData])
+  
   return (
     <div>
       {/* 1 */}
@@ -97,7 +110,8 @@ function ProductText() {
               >
                 +
               </span>
-              <span className="mx-2">{count}</span>
+              <span className="mx-2">{count }</span>
+              
               <span
                 className="mx-3"
                 style={{ fontSize: '30px' }}
@@ -112,6 +126,8 @@ function ProductText() {
               type="button"
               className="  buttonCart"
               style={{ width: '100%' }}
+              disabled={count === 0}
+              onClick={()=>handleAddToCart()}
             >
               <span className="glyphicon glyphicon-plus"></span>
               إضافة إلى

@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom';
 export const Context = createContext();
 export function ContextProvider(props) {
   const [userData, setUserData] = useState(null);
+  const [loggedUsercart, setloggedUsercart] = useState([]);
   const [adminData, setAdminData] = useState(null);
 
   const [categories, setCategories] = useState([]);
@@ -352,8 +353,8 @@ export function ContextProvider(props) {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/categories/${catID}/products`
       );
-console.log(response.data.data)
-setProductsByCategory(response.data.data);
+      console.log(response.data.data);
+      setProductsByCategory(response.data.data);
       setIsLsLoading(false);
     } catch (error) {
       setIsLsLoading(false);
@@ -376,36 +377,38 @@ setProductsByCategory(response.data.data);
     }
   }
 
-    // Get Products By Brand
-    async function getProductsByBrand(brandID) {
-      try {
-        setIsLsLoading(true);
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/brands/${brandID}/products`
-        );
-        setProductsByBrand(response.data.data);
-        setIsLsLoading(false);
-      } catch (error) {
-        setIsLsLoading(false);
-        console.log(error);
-      }
+  // Get Products By Brand
+  async function getProductsByBrand(brandID) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/brands/${brandID}/products`
+      );
+      setProductsByBrand(response.data.data);
+      setIsLsLoading(false);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
     }
+  }
 
+  {
+    /* Get Product Details */
+  }
 
-    {/* Get Product Details */}
-
-    async function getProductDetails(pID){
-      try {
-        setIsLsLoading(true)
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/${pID}`)
-        setProductDetails(response.data.data)
-        setIsLsLoading(false)
-
-      } catch (error) {
-        setIsLsLoading(false)
-        console.log(error)
-      }
+  async function getProductDetails(pID) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/products/${pID}`
+      );
+      setProductDetails(response.data.data);
+      setIsLsLoading(false);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
     }
+  }
   // Add product
   async function addNewProduct(fd) {
     try {
@@ -458,7 +461,7 @@ setProductsByCategory(response.data.data);
       });
   }
 
-  // update Product
+  // Delete Product
 
   async function deleteProduct(id) {
     setIsLsLoading(true);
@@ -480,6 +483,48 @@ setProductsByCategory(response.data.data);
         setIsLsLoading(false);
         console.log(err);
       });
+  }
+
+  {
+    /* Cart */
+  }
+
+  // Add to Cart
+
+  async function addToCart(id) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/cart`,
+        {productId:id},
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      console.log(response);
+      toast.success('تمت الاضافه بنجاح')
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+      toast.error('حدث خطأ')
+    }
+  }
+
+  // Get Logged User Cart
+
+  async function getLoggedUserCart() {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cart`,
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      console.log(response);
+      setloggedUsercart(response.data.results)
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
   }
 
   // get All Users
@@ -633,6 +678,59 @@ setProductsByCategory(response.data.data);
     }
   }
 
+  {
+    /* Reviews */
+  }
+
+  // add Review
+
+  async function addReview(proID, userID, reviewContent, reviewRate) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/reviews`,
+        {
+          product: proID,
+          user: userID,
+          name: reviewContent,
+          rating: reviewRate,
+        },
+        {
+          headers: userHeaders,
+        }
+      );
+      console.log(response);
+      setIsLsLoading(false);
+      toast.success('شكرا على تقييمك لنا');
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+      toast.error('لقد قمت بالتقييم من قبل!');
+    }
+  }
+
+  // delete Review >> ADMIN ONLY
+  async function deleteReview(reviewID) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/reviews/${reviewID}`,
+        {
+          headers: adminHeaders,
+        }
+      );
+      setIsLsLoading(false);
+
+      toast.success('deleted');
+      console.log(response);
+    } catch (error) {
+      setIsLsLoading(false);
+
+      console.log(error);
+      toast.error('error');
+    }
+  }
+
   async function handleOnChange(event) {
     if (event.target.id === 'category') {
       console.log('Form::onChange', event.target.value);
@@ -658,6 +756,7 @@ setProductsByCategory(response.data.data);
     getAllUsers();
     getAllOrders();
     getOneOrder();
+    getLoggedUserCart()
   }, []);
   return (
     <Context.Provider
@@ -680,6 +779,10 @@ setProductsByCategory(response.data.data);
         deleteSub,
         updateProduct,
         deleteProduct,
+        addReview,
+        addToCart,
+        loggedUsercart,
+        deleteReview,
         handleOnChange,
         getAllBrands,
         getOneOrder,
@@ -705,12 +808,13 @@ setProductsByCategory(response.data.data);
         subcategories,
         brands,
         adminHeaders,
+        userHeaders,
         users,
         orders,
         order,
         productsByCategory,
         productsBySubCategory,
-        productsByBrand
+        productsByBrand,
       }}
     >
       {props.children}

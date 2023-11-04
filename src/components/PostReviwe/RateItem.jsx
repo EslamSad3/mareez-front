@@ -1,14 +1,19 @@
-import React,{ useState ,useEffect,useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 import rate from '../../Assets/rate.png';
 import deleteicon from '../../Assets/delete.png';
 import { Context } from '../../context/ContextAPI';
 
-
 function RateItem() {
-  const { productDetails } = useContext(Context);
+  const { productDetails, adminHeaders ,userHeaders,deleteReview} = useContext(Context);
   const [reviews, setReviews] = useState([]);
+
+
+  async function handleDeleteReview(reviewID){
+    await deleteReview(reviewID)
+  }
+
 
   useEffect(() => {
     if (productDetails) {
@@ -45,15 +50,18 @@ function RateItem() {
                     <div className="rate-description  d-inline ms-2">
                       {review ? review.name : ''}
                     </div>
-                    <div className="d-inline d-flex justify-content-end">
-                      <img
-                        src={deleteicon}
-                        width="20px"
-                        height="20px"
-                        style={{ cursor: 'pointer' }}
-                        alt="delete"
-                      />
-                    </div>
+                    {adminHeaders.Authorization !== 'Bearer null' && (
+                      <div className="d-inline d-flex justify-content-end">
+                        <img
+                          src={deleteicon}
+                          width="20px"
+                          height="20px"
+                          style={{ cursor: 'pointer' }}
+                          alt="delete"
+                          onClick={()=>handleDeleteReview(review._id)}
+                        />
+                      </div>
+                    )}
                   </Col>
                 </Row>
                 <ToastContainer />
