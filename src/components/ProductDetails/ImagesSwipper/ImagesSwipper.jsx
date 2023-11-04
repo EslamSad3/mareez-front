@@ -8,11 +8,14 @@ import {
   Autoplay,
 } from 'swiper/modules';
 import { Container } from 'react-bootstrap';
+import { useContext } from 'react';
+import { Context } from '../../../context/ContextAPI';
 
-function ImagesSwipper({ productDetails }) {
+function ImagesSwipper() {
+  const { productDetails } = useContext(Context);
+
+  const [images, setImages] = useState([]);
   
-    const [images, setImages] = useState([]);
-    console.log(images);
     useEffect(() => {
       if (productDetails) {
         setImages(productDetails.images);

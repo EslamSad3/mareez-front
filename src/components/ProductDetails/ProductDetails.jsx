@@ -22,7 +22,7 @@ function ProductDetails() {
     <>
       <Row className="p-3" style={{ minHeight: '670px' }}>
         <Col lg="6" xs="12">
-          <ImagesSwipper productDetails={productDetails} />
+          <ImagesSwipper/>
         </Col>
         <Col lg="6" xs="12">
           <ProductText productDetails={productDetails} />
