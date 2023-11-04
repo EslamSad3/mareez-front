@@ -4,7 +4,7 @@ import RatePost from './RatePost'
 import { Col, Container, Row } from 'react-bootstrap'
 import rate from '../../Assets/rate.png'
 
-function RateContiner() {
+function RateContiner({productDetails}) {
   return (
     <Container className='rate-container'>
     <Row>

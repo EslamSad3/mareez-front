@@ -10,8 +10,16 @@ export function ContextProvider(props) {
   const [adminData, setAdminData] = useState(null);
 
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState([]);
   const [subcategories, setSubCategories] = useState([]);
+
   const [products, setProducts] = useState([]);
+  const [productDetails, setProductDetails] = useState([]);
+
+  const [productsByCategory, setProductsByCategory] = useState([]);
+  const [productsBySubCategory, setProductsBySubCategory] = useState([]);
+  const [productsByBrand, setProductsByBrand] = useState([]);
+
   const [brands, setBrands] = useState([]);
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -130,6 +138,22 @@ export function ContextProvider(props) {
       console.log(error);
     }
   }
+
+  // Get One Category
+  async function getOneCategory(id) {
+    try {
+      setIsLsLoading(true);
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/categories/${id}`
+      );
+      setCategory(res.data.data);
+      setIsLsLoading(false);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
+
   // delete Categories
   async function deleteCategory(category_id) {
     console.log(category_id);
@@ -317,6 +341,71 @@ export function ContextProvider(props) {
     }
   }
 
+  {
+    /*Get ProductsBy*/
+  }
+
+  // Get Products By Category
+  async function getProductsByCategory(catID) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/categories/${catID}/products`
+      );
+console.log(response.data.data)
+setProductsByCategory(response.data.data);
+      setIsLsLoading(false);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
+
+  // Get Products By SubCategory
+  async function getProductsBySubCategory(subcatID) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/subcategories/${subcatID}/products`
+      );
+      setProductsBySubCategory(response.data.data);
+      setIsLsLoading(false);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
+
+    // Get Products By Brand
+    async function getProductsByBrand(brandID) {
+      try {
+        setIsLsLoading(true);
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/brands/${brandID}/products`
+        );
+        setProductsByBrand(response.data.data);
+        setIsLsLoading(false);
+      } catch (error) {
+        setIsLsLoading(false);
+        console.log(error);
+      }
+    }
+
+
+    {/* Get Product Details */}
+
+    async function getProductDetails(pID){
+      try {
+        setIsLsLoading(true)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/${pID}`)
+        setProductDetails(response.data.data)
+        setIsLsLoading(false)
+
+      } catch (error) {
+        setIsLsLoading(false)
+        console.log(error)
+      }
+    }
   // Add product
   async function addNewProduct(fd) {
     try {
@@ -531,6 +620,19 @@ export function ContextProvider(props) {
     }
   }
 
+  async function deleteOrder(id) {
+    try {
+      setIsLsLoading(true);
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/orders/${id}`, {
+        headers: adminHeaders,
+      });
+      setIsLsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLsLoading(false);
+    }
+  }
+
   async function handleOnChange(event) {
     if (event.target.id === 'category') {
       console.log('Form::onChange', event.target.value);
@@ -564,11 +666,16 @@ export function ContextProvider(props) {
         handleLogingIn,
         setUserData,
         setAdminData,
+        getProductsByCategory,
+        getProductsBySubCategory,
+        getProductsByBrand,
+        getProductDetails,
         addNewProduct,
         getAllCategories,
         addCategory,
         deleteCategory,
         getAllSubCategories,
+        getOneCategory,
         addSubCatrgory,
         deleteSub,
         updateProduct,
@@ -576,6 +683,7 @@ export function ContextProvider(props) {
         handleOnChange,
         getAllBrands,
         getOneOrder,
+        deleteOrder,
         changeOrderStatus,
         changeOrderPatmentStatus,
         addBrand,
@@ -591,13 +699,18 @@ export function ContextProvider(props) {
         deliverLoading,
         payLoading,
         products,
+        productDetails,
         categories,
+        category,
         subcategories,
         brands,
         adminHeaders,
         users,
         orders,
         order,
+        productsByCategory,
+        productsBySubCategory,
+        productsByBrand
       }}
     >
       {props.children}

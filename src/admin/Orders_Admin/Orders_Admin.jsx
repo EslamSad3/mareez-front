@@ -4,15 +4,18 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from '../../context/ContextAPI';
 function OrdersAdmin() {
-  const { orders } = useContext(Context);
-  console.log(orders);
+  const { orders,deleteOrder } = useContext(Context);
+
+  async function handledeleteorder(id){
+    await deleteOrder(id)
+  }
   return (
     <>
       <Container>
         <br />
         <h2 className="text-center"> كل الطلبات</h2>
         <Row>
-          {orders.length > 0 ? (
+          {orders&& orders.length > 0 ? (
             orders.map((order) => {
               return (
                 <>
@@ -39,6 +42,7 @@ function OrdersAdmin() {
                                 <Button
                                   className="d-inline text-dark"
                                   variant="danger"
+                                  onClick={()=>handledeleteorder(order._id)}
                                 >
                                   ازاله
                                 </Button>
@@ -52,7 +56,7 @@ function OrdersAdmin() {
               );
             })
           ) : (
-            <p>Loading</p>
+            <p>No Orders Yet</p>
           )}
         </Row>
       </Container>

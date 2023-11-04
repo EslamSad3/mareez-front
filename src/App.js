@@ -31,6 +31,7 @@ import OrderDetailsAdmin from './admin/Orders_Admin/Order_Details/OrderDetailsAd
 import HomeAddAddress from './components/AddressUser/HomeAddAddress';
 import UserAddress from './components/AddressUser/UserAddress';
 import HomePayment from './components/Payment/HomePayment';
+import ProductsByCategory from './components/ProductsBy/ProductsByCategory/ProductsByCategory';
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
           <Route path="/cart/addAddress" element={<HomeAddAddress />} />
           <Route path="/cart/userAddress" element={<UserAddress />} />
           <Route path="/checkouts/payment" element={<HomePayment />} />
+
+          {/* Products By */}
+
+          <Route
+            path="/category/:id/products"
+            element={<ProductsByCategory />}
+          />
+
           <Route
             path="/cart"
             element={
@@ -112,7 +121,7 @@ function App() {
             path="addproducts"
             element={
               <ProtectedRouteAdmin>
-                < AddProduct/>
+                <AddProduct />
               </ProtectedRouteAdmin>
             }
           />
@@ -120,7 +129,7 @@ function App() {
             path="allProducts/update/:id"
             element={
               <ProtectedRouteAdmin>
-                <UpdateProduct/>
+                <UpdateProduct />
               </ProtectedRouteAdmin>
             }
           />

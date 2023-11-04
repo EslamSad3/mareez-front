@@ -7,8 +7,9 @@ import { AiOutlineShoppingCart} from'react-icons/ai'
 import favoff from '../../Assets/fav-off.png'
 import favon from '../../Assets/fav-on.png'
 
-function ProductText() {
+function ProductText({productDetails}) {
   //  heart 
+  console.log(productDetails)
   const [isFavOn, setIsFavOn] = useState(false);
 
   const switchImage = () => {
@@ -33,7 +34,7 @@ function ProductText() {
     <div>
       {/* 1 */}
     <Row className="mt-2">
-      <h3 className="titleDetails"> طاولة مدخل 110×45×90 سم - بني وأبيض - ADESI-10100</h3>
+      <h3 className="titleDetails"> {productDetails.title}</h3>
       <div className='d-flex justify-content-start m-2'>
         <div className='mx-2 textDes'>ينتج عند الطلب</div>
         <div className='mx-2 textDesc'>يتم التوصيل فى خلال 10-14 ايام</div>
@@ -41,10 +42,10 @@ function ProductText() {
     </Row>
       {/* 2 */}
     <Row className="mt-2">
-      <h4 ><strong>1,499</strong>.00 ريال</h4>
+      <h4 ><strong>{productDetails.priceAfterDisc}</strong>.00 ريال</h4>
       <div className='d-flex justify-content-start m-2'>
-        <p ><del>1,750.00 ريال</del></p>
-        <p className="priceDescound">خصم 14%</p>
+        <p ><del>{productDetails.price} ريال</del></p>
+        <p className="priceDescound">خصم {((productDetails.price - productDetails.priceAfterDisc) * 100 ) /100}%</p>
       </div>
         <div className='mx-3 priceDesc'> *السعر يشمل ضريبه القيمه المضافه</div>
     </Row>
@@ -53,7 +54,7 @@ function ProductText() {
     <Row>
       <div>
         <BiSolidShoppingBags style={{fontSize:'30px'}} className='mx-2'/>
-       البائع :Modern Mattress
+       البائع :{productDetails && productDetails.brand && productDetails.brand.name}
       </div>
     </Row>
     <hr />
@@ -90,15 +91,7 @@ function ProductText() {
       {/* 5 */}
     <Row className="mt-2">
       <h2 className='m-2'>الوصف</h2>
-      <ul>
-        <li>العلامة التجارية: فنون التصميم</li>
-        <li>اللون: بني وأبيض</li>
-        <li>لطول (سم): 110</li>
-        <li>العرض (سم): 45</li>
-        <li>لإرتفاع (سم): 90</li>
-        <li>الخامة: خشب تايلندي وزجاج </li>
-        <li>بلد المنشأ: المملكة العربية السعودية</li>
-      </ul>
+      <p>{productDetails.description}</p>
         <div className='mx-3 priceDesc'> *السعر يشمل ضريبه القيمه المضافه</div>
     </Row>
     <hr />
@@ -109,19 +102,23 @@ function ProductText() {
         <tbody>
           <tr>
             <td>SKU</td>
-            <td>MOD.MA.242</td>
+            <td>{productDetails && productDetails.brand && productDetails.brand.name}</td>
           </tr>
           <tr>
             <td>تاجر</td>
-            <td>Modern Mattress</td>
+            <td>{productDetails && productDetails.brand && productDetails.brand.name}</td>
           </tr>
           <tr>
             <td>العمق (سم)</td>
             <td>140</td>
           </tr>
           <tr>
-            <td>اللون</td>
-            <td>رمادي</td>
+            <td>الالون</td>
+            {productDetails && productDetails.colors && productDetails.colors.map((color)=>{
+              return <>
+            <td>{color}</td>
+              </>
+            })}
           </tr>
         </tbody>
       </table>
