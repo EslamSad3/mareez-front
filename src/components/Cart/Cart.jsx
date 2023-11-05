@@ -1,11 +1,14 @@
 import React,{useContext} from 'react';
 import { Container } from 'react-bootstrap';
+import { Context } from '../../context/ContextAPI';
+
 
 
 function Cart() {
-  const {loggedUsercart} = useContext()
+  
   return (
     <Container style={{height:'500px'}}>
+      
       <div className=" d-flex justify-content-between gap-3 mt-5 flex-column text-center align-items-center">
         <svg
           width="256"

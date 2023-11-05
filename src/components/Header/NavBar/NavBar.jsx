@@ -53,7 +53,7 @@ const navigate = useNavigate()
                 <i className="fa-solid fa-cart-shopping fs-3"></i>
                 <h6 className="mx-2 fs-6 fw-normal">العربه</h6>
                 <span className="position-absolute top-1 start-100 translate-middle badge  rounded-circle bg-danger">
-                  {loggedUsercart &&  loggedUsercart}
+                  {loggedUsercart &&  loggedUsercart.results}
                 </span>
               </Link>
             </Nav.Link>

@@ -520,7 +520,7 @@ export function ContextProvider(props) {
       );
       setIsLsLoading(false);
       console.log(response);
-      setloggedUsercart(response.data.results)
+      setloggedUsercart(response.data)
     } catch (error) {
       setIsLsLoading(false);
       console.log(error);
