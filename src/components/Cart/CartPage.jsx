@@ -28,11 +28,11 @@ console.log(userCartItems)
           </Row>
           <Row className="d-flex justify-content-center" dir="">
             <Col xs="12" md="4" dir="ltr">
-              <CartCheckout loggedUsercart={loggedUsercart}/>
+              <CartCheckout/>
             </Col>
 
             <Col xs="12" md="8" dir="rtl">
-              <CartItem userCartItems={userCartItems}/>
+              <CartItem/>
             </Col>
           </Row>
         </Container>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import CategoryCard from './CategoryCard';
 import item1 from '../../Assets/item1.jpg';
 import SubTiltle from '../SubTitle/SubTiltle';
@@ -16,15 +16,15 @@ function HomeCategories() {
           {categories &&
             categories.map((category) => {
               return (
-             
-                  <Link to={`/category/${category._id}/products`} key={category._id}>
+                <Col key={category._id}>
+                  <Link to={`/category/${category._id}/products`}>
                     <CategoryCard
                       title={category.name}
                       img={category.image}
                       background="#F4DBA4"
                     />
                   </Link>
-               
+                </Col>
               );
             })}
         </Row>

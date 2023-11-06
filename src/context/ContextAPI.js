@@ -409,6 +409,7 @@ export function ContextProvider(props) {
       console.log(error);
     }
   }
+
   // Add product
   async function addNewProduct(fd) {
     try {
@@ -496,16 +497,16 @@ export function ContextProvider(props) {
       setIsLsLoading(true);
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/cart`,
-        {productId:id},
+        { productId: id },
         { headers: userHeaders }
       );
       setIsLsLoading(false);
       console.log(response);
-      toast.success('تمت الاضافه بنجاح')
+      toast.success('تمت الاضافه بنجاح');
     } catch (error) {
       setIsLsLoading(false);
       console.log(error);
-      toast.error('حدث خطأ')
+      toast.error('حدث خطأ');
     }
   }
 
@@ -520,13 +521,88 @@ export function ContextProvider(props) {
       );
       setIsLsLoading(false);
       console.log(response);
-      setloggedUsercart(response.data)
+      setloggedUsercart(response.data);
     } catch (error) {
       setIsLsLoading(false);
       console.log(error);
     }
   }
 
+  //  Delete Item form Cart
+  async function deleteItemFromCart(id) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/cart/${id}`,
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      console.log(response);
+      toast.success('تم مسح المنتج بنجاح');
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+      toast.error('خطأ في مسح المنتج');
+    }
+  }
+
+  // delete Al Cart
+  async function deleteAllCart() {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/cart`,
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      console.log(response);
+      toast.success('تم مسح العربه بنجاح');
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+      toast.error('خطأ في مسح العربه');
+    }
+  }
+
+  // wish List
+
+  // add to wishList
+  async function addToWishList(id) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/wishlist`,
+        {
+          productId: id,
+        },
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      toast.success('edded')
+      console.log(response);
+    } catch (error) {
+      setIsLsLoading(false);
+      toast.error('error')
+
+      console.log(error);
+    }
+  }
+
+  // add to wishList
+  async function deleteFromWishList(id) {
+    try {
+      setIsLsLoading(true);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/wishlist/${id}`,
+        { headers: userHeaders }
+      );
+      setIsLsLoading(false);
+      console.log(response);
+    } catch (error) {
+      setIsLsLoading(false);
+      console.log(error);
+    }
+  }
   // get All Users
   async function getAllUsers() {
     try {
@@ -756,7 +832,8 @@ export function ContextProvider(props) {
     getAllUsers();
     getAllOrders();
     getOneOrder();
-    getLoggedUserCart()
+    getLoggedUserCart();
+    getProductDetails();
   }, []);
   return (
     <Context.Provider
@@ -769,6 +846,8 @@ export function ContextProvider(props) {
         getProductsBySubCategory,
         getProductsByBrand,
         getProductDetails,
+        addToWishList,
+        deleteFromWishList,
         addNewProduct,
         getAllCategories,
         addCategory,
@@ -781,7 +860,8 @@ export function ContextProvider(props) {
         deleteProduct,
         addReview,
         addToCart,
-        loggedUsercart,
+        deleteItemFromCart,
+        deleteAllCart,
         deleteReview,
         handleOnChange,
         getAllBrands,
@@ -792,6 +872,7 @@ export function ContextProvider(props) {
         addBrand,
         deleteBrand,
         deleteUser,
+        loggedUsercart,
         userData,
         adminData,
         loginErr,

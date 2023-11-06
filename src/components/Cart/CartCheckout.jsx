@@ -5,8 +5,14 @@ import { ToastContainer } from 'react-toastify';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { PiArrowArcLeftLight } from 'react-icons/pi';
 import './CartItem.css';
+import { useContext } from 'react';
+import { Context } from '../../context/ContextAPI';
 
-function CartCheckout({ loggedUsercart }) {
+function CartCheckout() {
+  const { loggedUsercart, deleteAllCart } = useContext(Context);
+  async function handleDeleteCart() {
+    await deleteAllCart();
+  }
   return (
     <div>
       <Row className="my-3 d-flex justify-content-center cart-checkout pt-3 ItemCard">
@@ -19,7 +25,8 @@ function CartCheckout({ loggedUsercart }) {
             />
           </div>
           <h1 className="product-price d-inline w-100 my-3  border">
-            ريال {loggedUsercart && loggedUsercart.data && loggedUsercart.data.total}
+            ريال{' '}
+            {loggedUsercart && loggedUsercart.data && loggedUsercart.data.total}
           </h1>
           <hr />
           <div className="InfoAddress">
@@ -42,7 +49,10 @@ function CartCheckout({ loggedUsercart }) {
               أضف عنوان
             </button>
           </Link>
-          <button className="product-cart-add w-100 px-2 my-1">
+          <button
+            className="product-cart-add w-100 px-2 my-1"
+            onClick={() => handleDeleteCart()}
+          >
             {' '}
             مسح العربة
           </button>

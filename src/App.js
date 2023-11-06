@@ -42,7 +42,7 @@ function App() {
       <Routes>
         <Route path="" element={<LayOut />}>
           <Route path="/" element={<Home />} />
-          <Route path="/detalis/:id" element={<ProductDetails />} />
+          <Route path="/details/:id" element={<ProductDetails />} />
           <Route path="/cart/addAddress" element={<HomeAddAddress />} />
           <Route path="/cart/userAddress" element={<UserAddress />} />
           <Route path="/checkouts/payment" element={<HomePayment />} />

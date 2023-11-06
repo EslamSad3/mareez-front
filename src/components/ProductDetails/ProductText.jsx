@@ -12,41 +12,45 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 
 function ProductText() {
-  const { productDetails,addToCart ,userData,loggedUsercart} = useContext(Context);
+  const {
+    productDetails,
+    addToCart,
+    userData,
+    loggedUsercart,
+    addToWishList,
+    deleteFromWishList,
+  } = useContext(Context);
   const [user, setuser] = useState('');
-const {id} = useParams()
-  //  heart
-console.log(loggedUsercart)
-  async function handleAddToCart(){
-await addToCart(id)
-  }
-  const [isFavOn, setIsFavOn] = useState(false);
+  const { id } = useParams();
 
-  const switchImage = () => {
+  //  heart
+  const [isFavOn, setIsFavOn] = useState(false);
+  console.log(isFavOn);
+  
+  async function switchImage(){
     setIsFavOn((prevState) => !prevState);
-  };
-  ///// count
-  const [count, setCount] = useState(1);
-  // ++++++
-  const increment = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-  // --------
-  const decrement = () => {
-    if (count < 1) {
-      setCount(0);
-    } else {
-      setCount((prevCount) => prevCount - 1);
+    if (isFavOn === true) {
+      await addToWishList(id);
     }
   };
+
+  console.log(user);
+
+  async function handleAddToCart() {
+    await addToCart(id);
+  }
 
   useEffect(() => {
-    if(userData){
-      setuser(userData.payload)
+    if (userData) {
+      setuser(userData.payload);
+      userData.payload.wishlist.forEach((element) => {
+        if (element === id) {
+          setIsFavOn(true);
+        } else setIsFavOn(false);
+      });
     }
+  }, [userData]);
 
-  }, [userData])
-  
   return (
     <div>
       {/* 1 */}
@@ -64,23 +68,25 @@ await addToCart(id)
       <Row className="mt-2">
         <h4>
           <strong>{productDetails ? productDetails.priceAfterDisc : ''}</strong>
-          .00 ريال
+          ريال
         </h4>
         <div className="d-flex justify-content-start m-2">
           <p>
             <del>{productDetails.price} ريال</del>
           </p>
-          <p className="priceDescound">
-            خصم{' '}
-            {((productDetails
-              ? productDetails.price
-              : '1' - productDetails
-              ? productDetails.priceAfterDisc
-              : '0') *
-              100) /
-              100}
-            %
-          </p>
+          {productDetails &&
+            productDetails.price &&
+            productDetails.priceAfterDisc && (
+              <p className="priceDescound">
+                خصم{' '}
+                {Math.round(
+                  ((productDetails.price - productDetails.priceAfterDisc) /
+                    productDetails.price) *
+                    100
+                )}
+                %
+              </p>
+            )}
         </div>
         <div className="mx-3 priceDesc"> *السعر يشمل ضريبه القيمه المضافه</div>
       </Row>
@@ -101,33 +107,12 @@ await addToCart(id)
       {/* 4 */}
       <Row>
         <div className="d-flex justify-content-around">
-          <Col lg="3" xs="4" className="mx-2">
-            <div className="countersButton d-flex justify-content-center">
-              <span
-                className="mx-3"
-                onClick={increment}
-                style={{ fontSize: '30px' }}
-              >
-                +
-              </span>
-              <span className="mx-2">{count }</span>
-              
-              <span
-                className="mx-3"
-                style={{ fontSize: '30px' }}
-                onClick={decrement}
-              >
-                -
-              </span>
-            </div>
-          </Col>
           <Col lg="7" xs="6" className="mx-2">
             <button
               type="button"
               className="  buttonCart"
               style={{ width: '100%' }}
-              disabled={count === 0}
-              onClick={()=>handleAddToCart()}
+              onClick={() => handleAddToCart()}
             >
               <span className="glyphicon glyphicon-plus"></span>
               إضافة إلى
@@ -138,7 +123,7 @@ await addToCart(id)
             <img
               src={isFavOn ? favon : favoff}
               alt={isFavOn ? 'Favorited' : 'Not favorited'}
-              onClick={switchImage}
+              onClick={() => switchImage()}
               className="text-center HeartIcon"
             />
           </Col>

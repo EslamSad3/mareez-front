@@ -16,7 +16,7 @@ function ProductsByCategory() {
   return (
     <div>
       {productsByCategory && productsByCategory.map((item)=>{
-        return <Link to={`/detalis/${item._id}`} className='text-dark'>
+        return <Link to={`/details/${item._id}`} className='text-dark'>
         <h1>{item.title}</h1>
         </Link>
       })}
